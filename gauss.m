@@ -1,4 +1,4 @@
-% Gauss elimination function with backward substitution
+ = % Gauss elimination function with backward substitution
 % Algorithm taken from: 
 % Burden, Faires, Burden. 2014. "Numerical Analysis". 10E, Cengage Leaning, p368
 % Created: July 2015
