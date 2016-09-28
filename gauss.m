@@ -1,7 +1,11 @@
- = % Gauss elimination function with backward substitution
+% Gauss elimination function with backward substitution
+% Achieves the same result as the built-in MATLAB function: A\b
 % Algorithm taken from: 
-% Burden, Faires, Burden. 2014. "Numerical Analysis". 10E, Cengage Leaning, p368
+% Burden, Faires, Burden. 2014. "Numerical Analysis". 10th Edition, Cengage Learning, p368
 % Created: July 2015
+
+% Example variables:    A = [3, -1, 1; 3, 6, 2; 3, 3, 7]
+%                       b = [1; 0; 4]
 
 function x = gauss(A,b)
 
