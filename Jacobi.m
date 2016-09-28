@@ -7,7 +7,7 @@
 %                       b = [1; 0; 4]
 %                       x0 = [0; 0; 0]
 %                       TOL = 1e-6
-%                       N = 10
+%                       N = 20
 
 function x = Jacobi( A, b, x0, TOL, N )
 
