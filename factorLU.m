@@ -3,6 +3,8 @@
 % Burden, Faires, Burden. 2014. "Numerical Analysis". 10th Edition, Cengage Learning, p410
 % Created: August 2015
 
+% Example variable:    A = [3, -1, 1; 3, 6, 2; 3, 3, 7]
+
 function [L,U] = factorLU(A)
 
     n = size(A,1);
