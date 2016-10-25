@@ -18,10 +18,11 @@ function [ t, w ] = euler( f, a, b, alpha, N )
         w(k+1,:) = w(k) + h*f(t(k), w(k));
         t(k+1,:) = a + k*h;
     end    
+    
     disp('Euler method completed.'); 
     plot(t, w, ':r*');
     xlabel('Time (t)')
-     ylabel('Function output per time step (w)')
+    ylabel('Function output per time step (w)')
     
 end
 
