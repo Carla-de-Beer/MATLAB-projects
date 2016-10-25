@@ -33,6 +33,8 @@ function [t, w, error] = rk45(f, a, b, alpha, N)
         %exact = (2*(t(k+1,:)) + 1)/((t(k+1,:))^2 + 1);
         error = norm(exact - w(k+1,:));  
         plot(t,w,':go');
+        xlabel('Time (t)')
+        ylabel('Function output per time step (w)')
         
     end
     

@@ -9,7 +9,7 @@
 %                       TOL = 1e-6
 %                       N = 20
 
-function x = GaussSeidel( A, b, x0, TOL, N )
+function x = gaussSeidel( A, b, x0, TOL, N )
 
     n = size(A,1);
 
