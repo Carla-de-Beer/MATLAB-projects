@@ -1,6 +1,6 @@
 % The computaion of the cost function as part of the 
 % gradient descent method to solve multivariate linear regression
-% Based on the Coursera 'Machine Learning' online course
+% Based on the Coursera 'Machine Learning' online course.
 % Created: January 2017
 
 function J = computeCost(X, y, theta)

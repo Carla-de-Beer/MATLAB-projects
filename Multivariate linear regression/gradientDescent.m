@@ -1,5 +1,5 @@
 % The gradient descent method to solve multivariate linear regression
-% Based on the Coursera 'Machine Learning' online course
+% Based on the Coursera 'Machine Learning' online course.
 % Created: January 2017
 
 function [theta, J_history] = gradientDescent(X, y, theta, alpha, numIters)
