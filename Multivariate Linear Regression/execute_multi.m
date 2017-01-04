@@ -3,6 +3,7 @@
 % Based on the Coursera Machine Learning course.
 % Data set: Discrimination in salaries
 % http://data.princeton.edu/wws509/datasets/#salary
+% Created: January 2017
 
 % Task: Given a dataset on personal data of university staff, predict the salary,
 % in $, of a proposed employee, using linear regression with feature
