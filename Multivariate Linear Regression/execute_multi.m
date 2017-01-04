@@ -31,8 +31,8 @@ fprintf('\n');
 %% Load Data
 data = load('salaries.txt');
 X = data(:, 1:5);
-y = data(:, 6);
-m = length(y);
+[m, n] = size(X);
+y = data(:, n+1);
 
 % Print out some data points
 fprintf('First 10 examples from the dataset: \n');
@@ -63,17 +63,17 @@ numIters = 400;
 
 % Init Theta1 and Run Gradient Descent 
 alpha1 = 0.01;
-theta1 = zeros(6, 1);
+theta1 = zeros(n+1, 1);
 [theta1, J1_history] = gradientDescent(X, y, theta1, alpha1, numIters);
 
 % Init Theta2 and Run Gradient Descent
 alpha2 = 0.1;
-theta2 = zeros(6, 1);
+theta2 = zeros(n+1, 1);
 [theta2, J2_history] = gradientDescent(X, y, theta2, alpha2, numIters);
 
 % Init Theta3 and Run Gradient Descent 
 alpha3 = 0.03;
-theta3 = zeros(6, 1);
+theta3 = zeros(n+1, 1);
 [theta3, J3_history] = gradientDescent(X, y, theta3, alpha3, numIters);
 
 % Plot the convergence graph
@@ -206,8 +206,8 @@ fprintf('Solving with normal equations...\n');
 %% Load Data
 data = csvread('salaries.txt');
 X = data(:, 1:5);
-y = data(:, 6);
-m = length(y);
+[m, n] = size(X);
+y = data(:, n+1);
 
 % Add intercept term to X
 X = [ones(m, 1) X];
