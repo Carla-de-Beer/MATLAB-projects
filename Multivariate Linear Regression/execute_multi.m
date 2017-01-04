@@ -3,7 +3,6 @@
 % Based on the Coursera Machine Learning course.
 % Data set: Discrimination in salaries
 % http://data.princeton.edu/wws509/datasets/#salary
-% Created: January 2017
 
 % Task: Given a dataset on personal data of university staff, predict the salary,
 % in $, of a proposed employee, using linear regression with feature
@@ -60,54 +59,56 @@ fprintf('\n');
 fprintf('Running gradient descent ...\n');
 fprintf('\n');
 
-% Choose some alpha value
-alpha = 0.01;
 numIters = 400;
 
-% Init Theta and Run Gradient Descent 
-theta = zeros(6, 1);
-[theta, J_history] = gradientDescent(X, y, theta, alpha, numIters);
+% Init Theta1 and Run Gradient Descent 
+alpha1 = 0.01;
+theta1 = zeros(6, 1);
+[theta1, J1_history] = gradientDescent(X, y, theta1, alpha1, numIters);
+
+% Init Theta2 and Run Gradient Descent
+alpha2 = 0.1;
+theta2 = zeros(6, 1);
+[theta2, J2_history] = gradientDescent(X, y, theta2, alpha2, numIters);
+
+% Init Theta3 and Run Gradient Descent 
+alpha3 = 0.03;
+theta3 = zeros(6, 1);
+[theta3, J3_history] = gradientDescent(X, y, theta3, alpha3, numIters);
 
 % Plot the convergence graph
 figure;
-plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+plot(1:numel(J1_history), J1_history, '-b', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
 
 hold on;
 
-alpha = 0.1;
-numIters = 400;
-
-% Init Theta and Run Gradient Descent 
-theta = zeros(6, 1);
-[theta, J_history] = gradientDescent(X, y, theta, alpha, numIters);
-
-% Plot the convergence graph
-plot(1:numel(J_history), J_history, '-r', 'LineWidth', 2);
+plot(1:numel(J2_history), J2_history, '-r', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
 
 hold on;
 
-alpha = 0.05;
-numIters = 400;
-
-% Init Theta and Run Gradient Descent 
-theta = zeros(6, 1);
-[theta, J_history] = gradientDescent(X, y, theta, alpha, numIters);
-
-% Plot the convergence graph
-plot(1:numel(J_history), J_history, '-g', 'LineWidth', 2);
+plot(1:numel(J3_history), J3_history, '-g', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
 
-legend('\alpha = 0.01','\alpha = 0.1', '\alpha = 0.05')
+% Create legend data
+a1 = num2str(alpha1);
+a2 = num2str(alpha2);
+a3 = num2str(alpha3);
+
+l1 = strcat('\alpha = ', a1);
+l2 = strcat('\alpha = ', a2);
+l3 = strcat('\alpha = ', a3);
+
+legend(l1, l2, l3);
 
 % Display gradient descent's result
 fprintf('Theta computed from gradient descent: \n');
 fprintf('\n');
-fprintf(' %f \n', theta);
+fprintf(' %f \n', theta2);
 
 % PREDICTION 1
 % Estimate the salary of a:
@@ -118,7 +119,7 @@ fprintf(' %f \n', theta);
 % - 10 years since highest degree was earned [10]
 
 x = [1; (1-mu(1))/sigma(1); (1-mu(2))/sigma(2); (8-mu(3))/sigma(3); (0-mu(4))/sigma(4); (10-mu(5))/sigma(5)];
-salary = theta' * x;
+salary = theta2' * x;
 
 fprintf('\n----------------------------------------------------------------------------\n');
 fprintf('----------------------------------------------------------------------------\n');
@@ -140,7 +141,7 @@ fprintf(['Predicted salary of: ' ...
 % - 10 years since highest degree was earned [10]
 
 x = [1; (0-mu(1))/sigma(1); (1-mu(2))/sigma(2); (8-mu(3))/sigma(3); (0-mu(4))/sigma(4); (10-mu(5))/sigma(5)];
-salary = theta' * x;
+salary = theta2' * x;
 
 fprintf('\n');
 fprintf(['Predicted salary of: ' ...
@@ -160,7 +161,7 @@ fprintf(['Predicted salary of: ' ...
 % - 15 years since highest degree was earned [15]
 
 x = [1; (1-mu(1))/sigma(1); (3-mu(2))/sigma(2); (10-mu(3))/sigma(3); (1-mu(4))/sigma(4); (15-mu(5))/sigma(5)];
-salary = theta' * x;
+salary = theta2' * x;
 
 fprintf('\n');
 fprintf('PREDICTION 2\n');
@@ -181,7 +182,7 @@ fprintf(['Predicted salary of: ' ...
 % - 15 years since highest degree was earned [15]
 
 x = [1; (0-mu(1))/sigma(1); (3-mu(2))/sigma(2); (10-mu(3))/sigma(3); (1-mu(4))/sigma(4); (15-mu(5))/sigma(5)];
-salary = theta' * x;
+salary = theta2' * x;
 
 fprintf('\n');
 fprintf(['Predicted salary of: ' ...
