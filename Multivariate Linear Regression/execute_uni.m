@@ -42,8 +42,8 @@ theta = gradientDescent(X, y, theta, alpha, iterations);
 % print theta to screen
 fprintf('\n');
 fprintf('Theta found by gradient descent: ');
-fprintf('\n');
-fprintf('%f %f \n', theta(1), theta(2));
+fprintf('\n\n');
+fprintf('%f \n %f \n', theta(1), theta(2));
 fprintf('\n');
 
 % Plot the linear fit
@@ -54,10 +54,10 @@ hold off % don't overlay any more plots on this figure
 
 % Predict values for population sizes of 35,000 and 70,000
 predict1 = [1, 3.5] * theta;
-fprintf('For population = 35,000, we predict a profit of %f\n',...
+fprintf('For population = 35,000, we predict a profit of: %f\n',...
     predict1*10000);
 predict2 = [1, 7] * theta;
-fprintf('For population = 70,000, we predict a profit of %f\n',...
+fprintf('For population = 70,000, we predict a profit of: %f\n',...
     predict2*10000);
 
 fprintf('\n');
