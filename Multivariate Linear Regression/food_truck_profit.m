@@ -7,12 +7,12 @@
 % and the profit that the food truck company makes for that town
 
 %% Initialization
-clear ; close all; clc
+clear; close all; clc
 
 %% ======================= Part 2: Plotting =======================
 fprintf('Plotting Data ...\n')
 fprintf('\n');
-data = load('profit.txt');
+data = load('food_truck_profit.txt');
 X = data(:, 1); y = data(:, 2);
 m = length(y); % number of training examples
 
