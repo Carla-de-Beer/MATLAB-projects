@@ -3,6 +3,7 @@
 % Based on the Coursera Machine Learning course.
 % Data set: Damonds
 % https://vincentarelbundock.github.io/Rdatasets/datasets.html
+% Created: January 2017
 
 % Task: Given a dataset on diamond data (carat, colour, clarity, depth, price/ct) predict its price,
 % using linear regression with feature
