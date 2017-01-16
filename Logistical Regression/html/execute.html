@@ -1,0 +1,256 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>================ Logistic Regression ===============</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-01-16"><meta name="DC.source" content="execute.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>================ Logistic Regression ===============</h1><!--introduction--><p>Based on the Coursera Machine Learning course.</p><p>Using polynomial features and regularisation to classify between linearly inseparable data.</p><p>Created: January 2017</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Initialization</a></li><li><a href="#2">Load Data</a></li><li><a href="#3">============= Part 1: Regularized Logistic Regression ============</a></li><li><a href="#4">============= Part 2: Regularization and Accuracies =============</a></li></ul></div><h2>Initialization<a name="1"></a></h2><pre class="codeinput">clear; close <span class="string">all</span>; clc
+</pre><h2>Load Data<a name="2"></a></h2><pre>The first two columns contains the X values and the third column
+contains the label (y).</pre><pre class="codeinput">data = load(<span class="string">'data.txt'</span>);
+X = data(:, [1, 2]); y = data(:, 3);
+
+plotData(X, y);
+
+<span class="comment">% Put some labels</span>
+hold <span class="string">on</span>;
+
+<span class="comment">% Labels and Legend</span>
+xlabel(<span class="string">'Microchip Test 1'</span>)
+ylabel(<span class="string">'Microchip Test 2'</span>)
+
+<span class="comment">% Specified in plot order</span>
+legend(<span class="string">'y = 1'</span>, <span class="string">'y = 0'</span>)
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="execute_01.png" style="width:560px;height:420px;" alt=""> <h2>============= Part 1: Regularized Logistic Regression ============<a name="3"></a></h2><pre>In this part, you are given a dataset with data points that are not
+linearly separable. However, you would still like to use logistic
+regression to classify the data points.</pre><pre>To do so, you introduce more features to use -- in particular, you add
+polynomial features to our data matrix (similar to polynomial
+regression).</pre><pre class="codeinput"><span class="comment">% Add Polynomial Features</span>
+
+<span class="comment">% Note that mapFeature also adds a column of ones for us, so the intercept</span>
+<span class="comment">% term is handled</span>
+degree = 6;
+X = mapFeature(X(:,1), X(:,2), degree);
+
+<span class="comment">% Initialize fitting parameters</span>
+initial_theta = zeros(size(X, 2), 1);
+
+<span class="comment">% Set regularization parameter lambda to 1 (you should vary this)</span>
+lambda = 1;
+
+<span class="comment">% Compute and display initial cost and gradient for regularized logistic</span>
+<span class="comment">% regression</span>
+[cost, grad] = costFunctionReg(initial_theta, X, y, lambda);
+
+fprintf(<span class="string">'Cost at initial theta (zeros): %f\n'</span>, cost);
+
+fprintf(<span class="string">'\nProgram paused. Press enter to continue.\n'</span>);
+pause;
+</pre><pre class="codeoutput">Cost at initial theta (zeros): 0.693147
+
+Program paused. Press enter to continue.
+</pre><h2>============= Part 2: Regularization and Accuracies =============<a name="4"></a></h2><pre>Optional Exercise:
+In this part, you will get to try different values of lambda and
+see how regularization affects the decision coundart</pre><pre>Try the following values of lambda (0, 1, 10, 100).</pre><pre>How does the decision boundary change when you vary lambda? How does
+the training set accuracy vary?</pre><pre class="codeinput"><span class="comment">% Initialize fitting parameters</span>
+initial_theta = zeros(size(X, 2), 1);
+
+<span class="comment">% Set Options</span>
+options = optimset(<span class="string">'GradObj'</span>, <span class="string">'on'</span>, <span class="string">'MaxIter'</span>, 400);
+
+<span class="comment">% Optimize</span>
+[theta, J, exit_flag] = <span class="keyword">...</span>
+	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+
+<span class="comment">% Plot Boundary</span>
+plotDecisionBoundary(theta, X, y, degree);
+hold <span class="string">on</span>;
+title(sprintf(<span class="string">'lambda = %g'</span>, lambda));
+
+<span class="comment">% Labels and Legend</span>
+xlabel(<span class="string">'Microchip Test 1'</span>)
+ylabel(<span class="string">'Microchip Test 2'</span>)
+
+legend(<span class="string">'y = 1'</span>, <span class="string">'y = 0'</span>, <span class="string">'Decision boundary'</span>);
+hold <span class="string">off</span>;
+
+<span class="comment">% Compute accuracy on our training set</span>
+p = predict(theta, X);
+
+fprintf(<span class="string">'Train Accuracy: %f\n'</span>, mean(double(p == y)) * 100);
+</pre><pre class="codeoutput">
+Local minimum possible.
+
+fminunc stopped because the final change in function value relative to 
+its initial value is less than the default value of the function tolerance.
+
+
+
+Train Accuracy: 83.050847
+</pre><img vspace="5" hspace="5" src="execute_02.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ================ Logistic Regression ===============
+%
+% Based on the Coursera Machine Learning course.
+%
+% Using polynomial features and regularisation to classify between linearly
+% inseparable data.
+%
+% Created: January 2017
+% 
+%% Initialization
+clear; close all; clc
+
+%% Load Data
+%  The first two columns contains the X values and the third column
+%  contains the label (y).
+
+data = load('data.txt');
+X = data(:, [1, 2]); y = data(:, 3);
+
+plotData(X, y);
+
+% Put some labels 
+hold on;
+
+% Labels and Legend
+xlabel('Microchip Test 1')
+ylabel('Microchip Test 2')
+
+% Specified in plot order
+legend('y = 1', 'y = 0')
+hold off;
+
+%% ============= Part 1: Regularized Logistic Regression ============
+%  In this part, you are given a dataset with data points that are not
+%  linearly separable. However, you would still like to use logistic 
+%  regression to classify the data points. 
+%
+%  To do so, you introduce more features to use REPLACE_WITH_DASH_DASH in particular, you add
+%  polynomial features to our data matrix (similar to polynomial
+%  regression).
+%
+
+% Add Polynomial Features
+
+% Note that mapFeature also adds a column of ones for us, so the intercept
+% term is handled
+degree = 6;
+X = mapFeature(X(:,1), X(:,2), degree);
+
+% Initialize fitting parameters
+initial_theta = zeros(size(X, 2), 1);
+
+% Set regularization parameter lambda to 1 (you should vary this)
+lambda = 1;
+
+% Compute and display initial cost and gradient for regularized logistic
+% regression
+[cost, grad] = costFunctionReg(initial_theta, X, y, lambda);
+
+fprintf('Cost at initial theta (zeros): %f\n', cost);
+
+fprintf('\nProgram paused. Press enter to continue.\n');
+pause;
+
+%% ============= Part 2: Regularization and Accuracies =============
+%  Optional Exercise:
+%  In this part, you will get to try different values of lambda and 
+%  see how regularization affects the decision coundart
+%
+%  Try the following values of lambda (0, 1, 10, 100).
+%
+%  How does the decision boundary change when you vary lambda? How does
+%  the training set accuracy vary?
+%
+
+% Initialize fitting parameters
+initial_theta = zeros(size(X, 2), 1);
+
+% Set Options
+options = optimset('GradObj', 'on', 'MaxIter', 400);
+
+% Optimize
+[theta, J, exit_flag] = ...
+	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+
+% Plot Boundary
+plotDecisionBoundary(theta, X, y, degree);
+hold on;
+title(sprintf('lambda = %g', lambda));
+
+% Labels and Legend
+xlabel('Microchip Test 1')
+ylabel('Microchip Test 2')
+
+legend('y = 1', 'y = 0', 'Decision boundary');
+hold off;
+
+% Compute accuracy on our training set
+p = predict(theta, X);
+
+fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
+##### SOURCE END #####
+--></body></html>
