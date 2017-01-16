@@ -168,15 +168,15 @@ while passes < max_passes,
         passes = 0;
     end
 
-    fprintf('.');
-    dots = dots + 1;
-    if dots > 78
-        dots = 0;
-        fprintf('\n');
-    end
-    if exist('OCTAVE_VERSION')
-        fflush(stdout);
-    end
+     fprintf('.');
+     dots = dots + 1;
+     if dots > 78
+         dots = 0;
+         fprintf('\n');
+     end
+     if exist('OCTAVE_VERSION')
+         fflush(stdout);
+     end
 end
 fprintf(' Done! \n\n');
 

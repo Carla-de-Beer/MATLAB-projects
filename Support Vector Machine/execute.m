@@ -1,13 +1,14 @@
 %% Support Vector Machine: Machine Learning Online Class
-
+%
 % Based on the Coursera Machine Learning course.
+%
 % Created: January 2017
+%
 
 %% Initialization
 clear; close all; clc
 
 %% ========== Training SVM with RBF Kernel ==========
-
 
 % Load X, y in the coding environment
 load('data.mat');

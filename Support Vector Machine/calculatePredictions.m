@@ -5,7 +5,7 @@ function misclassified = calculatePredictions( model, Xunknown, knownResult )
     classification = mean(double(predictions));
     misclassified = 0;
 
-    fprintf('Predicted classification of unkown input vector1: %f\n', classification);
+    %fprintf('Predicted classification of unkown input vector1: %f\n', classification);
     if classification == knownResult
         display('This classification is CORRECT');
     else
