@@ -1,0 +1,804 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>salaries</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-01-16"><meta name="DC.source" content="salaries.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">================ Multivariate Linear Regression ===============</a></li><li><a href="#2">================ Part 1: Feature Normalization ================</a></li><li><a href="#3">Clear and Close Figures</a></li><li><a href="#4">Load Data</a></li><li><a href="#5">================ Part 2: Gradient Descent ================</a></li><li><a href="#6">================ Part 3: Gradient Descent Predictions ================</a></li><li><a href="#7">================ Part 4: Normal Equations ================</a></li><li><a href="#8">Load Data</a></li></ul></div><h2>================ Multivariate Linear Regression ===============<a name="1"></a></h2><pre class="codeinput"><span class="comment">% Based on the Coursera Machine Learning course.</span>
+<span class="comment">% Data set: Discrimination in salaries</span>
+<span class="comment">% http://data.princeton.edu/wws509/datasets/#salary</span>
+
+<span class="comment">% Task: Given a dataset on personal data of university staff, predict the salary,</span>
+<span class="comment">% in $, of a proposed employee, using linear regression with feature</span>
+<span class="comment">% normalisation. Cross-check the results using normal equations.</span>
+
+<span class="comment">% The variables are:</span>
+<span class="comment">% sx = Sex, coded 1 for female and 0 for male</span>
+<span class="comment">% rk = Rank, coded</span>
+<span class="comment">%  - 1 for assistant professor,</span>
+<span class="comment">%  - 2 for associate professor, and</span>
+<span class="comment">%  - 3 for full professor</span>
+<span class="comment">% yr = Number of years in current rank</span>
+<span class="comment">% dg = Highest degree, coded 1 if doctorate, 0 if masters</span>
+<span class="comment">% yd = Number of years since highest degree was earned</span>
+<span class="comment">% sl = Academic year salary, in dollars.</span>
+</pre><h2>================ Part 1: Feature Normalization ================<a name="2"></a></h2><h2>Clear and Close Figures<a name="3"></a></h2><pre class="codeinput">clear; close <span class="string">all</span>; clc
+
+fprintf(<span class="string">'Loading data ...\n'</span>);
+fprintf(<span class="string">'\n'</span>);
+</pre><pre class="codeoutput">Loading data ...
+
+</pre><h2>Load Data<a name="4"></a></h2><pre class="codeinput">data = load(<span class="string">'salaries.txt'</span>);
+X = data(:, 1:5);
+[m, n] = size(X);
+y = data(:, n+1);
+
+<span class="comment">% Print out some data points</span>
+fprintf(<span class="string">'First 10 examples from the dataset: \n'</span>);
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Academic salaries based on:\n '</span> <span class="keyword">...</span>
+        <span class="string">'\t- gender, \n\t- rank, \n\t- year in current rank, \n\t- highest degree,'</span> <span class="keyword">...</span>
+        <span class="string">'\n\t- years since highest degree'</span>]);
+fprintf(<span class="string">'\n'</span>);
+
+fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">' x = [%.0f %.0f %.0f %.0f %.0f], y = %.0f \n'</span>, [X(1:10,:) y(1:10,:)]');
+
+fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">'Program paused. Press enter to continue.\n'</span>);
+pause;
+
+<span class="comment">% Scale features and set them to zero mean</span>
+fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">'Normalizing Features ...\n'</span>);
+
+[X mu sigma] = featureNormalize(X);
+
+<span class="comment">% Add intercept term to X</span>
+X = [ones(m, 1) X];
+</pre><pre class="codeoutput">First 10 examples from the dataset: 
+
+Academic salaries based on:
+ 	- gender, 
+	- rank, 
+	- year in current rank, 
+	- highest degree,
+	- years since highest degree
+
+ x = [0 3 25 1 35], y = 36350 
+ x = [0 3 13 1 22], y = 35350 
+ x = [0 3 10 1 23], y = 28200 
+ x = [1 3 7 1 27], y = 26775 
+ x = [0 3 19 0 30], y = 33696 
+ x = [0 3 16 1 21], y = 28516 
+ x = [1 3 0 0 32], y = 24900 
+ x = [0 3 16 1 18], y = 31909 
+ x = [0 3 13 0 30], y = 31850 
+ x = [0 3 13 0 31], y = 32850 
+
+Program paused. Press enter to continue.
+
+Normalizing Features ...
+</pre><h2>================ Part 2: Gradient Descent ================<a name="5"></a></h2><pre class="codeinput">fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">'Running gradient descent ...\n'</span>);
+fprintf(<span class="string">'\n'</span>);
+
+numIters = 400;
+
+<span class="comment">% Init Theta1 and Run Gradient Descent</span>
+alpha1 = 0.01;
+theta1 = zeros(n+1, 1);
+[theta1, J1_history] = gradientDescent(X, y, theta1, alpha1, numIters);
+
+<span class="comment">% Init Theta2 and Run Gradient Descent</span>
+alpha2 = 0.1;
+theta2 = zeros(n+1, 1);
+[theta2, J2_history] = gradientDescent(X, y, theta2, alpha2, numIters);
+
+<span class="comment">% Init Theta3 and Run Gradient Descent</span>
+alpha3 = 0.03;
+theta3 = zeros(n+1, 1);
+[theta3, J3_history] = gradientDescent(X, y, theta3, alpha3, numIters);
+
+<span class="comment">% Plot the convergence graph</span>
+figure;
+plot(1:numel(J1_history), J1_history, <span class="string">'-b'</span>, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'Number of iterations'</span>);
+ylabel(<span class="string">'Cost J'</span>);
+
+hold <span class="string">on</span>;
+
+plot(1:numel(J2_history), J2_history, <span class="string">'-r'</span>, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'Number of iterations'</span>);
+ylabel(<span class="string">'Cost J'</span>);
+
+hold <span class="string">on</span>;
+
+plot(1:numel(J3_history), J3_history, <span class="string">'-g'</span>, <span class="string">'LineWidth'</span>, 2);
+xlabel(<span class="string">'Number of iterations'</span>);
+ylabel(<span class="string">'Cost J'</span>);
+
+<span class="comment">% Create legend data</span>
+a1 = num2str(alpha1);
+a2 = num2str(alpha2);
+a3 = num2str(alpha3);
+
+l1 = strcat(<span class="string">'\alpha 1 = '</span>, a1);
+l2 = strcat(<span class="string">'\alpha 2 = '</span>, a2);
+l3 = strcat(<span class="string">'\alpha 3 = '</span>, a3);
+
+legend(l1, l2, l3);
+
+<span class="comment">% Display gradient descent's result</span>
+fprintf(<span class="string">'Theta computed from gradient descent: \n'</span>);
+fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">' %f \n'</span>, theta2);
+</pre><pre class="codeoutput">
+Running gradient descent ...
+
+Theta computed from gradient descent: 
+
+ 23797.653846 
+ 703.078477 
+ 4936.189608 
+ 2710.137820 
+ -670.640429 
+ -1426.384294 
+</pre><img vspace="5" hspace="5" src="salaries_01.png" style="width:560px;height:420px;" alt=""> <h2>================ Part 3: Gradient Descent Predictions ================<a name="6"></a></h2><pre class="codeinput"><span class="comment">% PREDICTION 1</span>
+<span class="comment">% Estimate the salary of a:</span>
+<span class="comment">% - female employee [1],</span>
+<span class="comment">% - assistant professor [1],</span>
+<span class="comment">% - 8 years in current rank [8],</span>
+<span class="comment">% - master's degree [0],</span>
+<span class="comment">% - 10 years since highest degree was earned [10]</span>
+
+x = [1; (1-mu(1))/sigma(1); (1-mu(2))/sigma(2); (8-mu(3))/sigma(3); (0-mu(4))/sigma(4); (10-mu(5))/sigma(5)];
+salary1A = theta2' * x;
+
+<span class="comment">% Estimate the salary of a:</span>
+<span class="comment">% - male employee [0],</span>
+<span class="comment">% - assistant professor [1],</span>
+<span class="comment">% - 8 years in current rank [8],</span>
+<span class="comment">% - master's degree [0],</span>
+<span class="comment">% - 10 years since highest degree was earned [10]</span>
+
+x = [1; (0-mu(1))/sigma(1); (1-mu(2))/sigma(2); (8-mu(3))/sigma(3); (0-mu(4))/sigma(4); (10-mu(5))/sigma(5)];
+salary1B = theta2' * x;
+
+<span class="comment">% PREDICTION 2</span>
+<span class="comment">% Estimate the salary of a:</span>
+<span class="comment">% - female employee [1],</span>
+<span class="comment">% - full professor [3],</span>
+<span class="comment">% - 10 years in current rank [10],</span>
+<span class="comment">% - doctorate degree [1],</span>
+<span class="comment">% - 15 years since highest degree was earned [15]</span>
+
+x = [1; (1-mu(1))/sigma(1); (3-mu(2))/sigma(2); (10-mu(3))/sigma(3); (1-mu(4))/sigma(4); (15-mu(5))/sigma(5)];
+salary2A = theta2' * x;
+
+<span class="comment">% Estimate the salary of a:</span>
+<span class="comment">% - male employee [0],</span>
+<span class="comment">% - full professor [3],</span>
+<span class="comment">% - 10 years in current rank [10],</span>
+<span class="comment">% - doctorate degree [1],</span>
+<span class="comment">% - 15 years since highest degree was earned [15]</span>
+
+x = [1; (0-mu(1))/sigma(1); (3-mu(2))/sigma(2); (10-mu(3))/sigma(3); (1-mu(4))/sigma(4); (15-mu(5))/sigma(5)];
+salary2B = theta2' * x;
+
+fprintf(<span class="string">'\n----------------------------------------------------------------------------\n'</span>);
+fprintf(<span class="string">'----------------------------------------------------------------------------\n'</span>);
+fprintf(<span class="string">'PREDICTION 1\n'</span>);
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Predicted salary of: '</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- a female employee,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- assistant professor,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 8 years in current rank,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- masters degree,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 10 years since highest degree was earned '</span> <span class="keyword">...</span>
+    <span class="string">'(using gradient descent):\n $%f\n'</span>], salary1A);
+
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Predicted salary of: '</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- a male employee,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- assistant professor,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 8 years in current rank,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- masters degree, '</span><span class="keyword">...</span>
+    <span class="string">'\n\t- 10 years since highest degree was earned '</span> <span class="keyword">...</span>
+    <span class="string">'(using gradient descent):\n $%f\n'</span>], salary1B);
+
+fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">'PREDICTION 2\n'</span>);
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Predicted salary of: '</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- a female employee,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- full professor,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 10 years in current rank,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- doctorate degree,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 15 years since highest degree was earned '</span> <span class="keyword">...</span>
+    <span class="string">'(using gradient descent):\n $%f\n'</span>], salary2A);
+
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Predicted salary of: '</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- a male employee,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- full professor,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 10 years in current rank,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- doctorate degree, '</span><span class="keyword">...</span>
+    <span class="string">'\n\t- 15 years since highest degree was earned '</span> <span class="keyword">...</span>
+    <span class="string">'(using gradient descent):\n $%f\n'</span>], salary2B);
+fprintf(<span class="string">'\n----------------------------------------------------------------------------\n'</span>);
+fprintf(<span class="string">'----------------------------------------------------------------------------\n'</span>);
+
+fprintf(<span class="string">'Program paused. Press enter to continue.\n'</span>);
+fprintf(<span class="string">'\n'</span>);
+pause;
+</pre><pre class="codeoutput">
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+PREDICTION 1
+
+Predicted salary of: 
+	- a female employee,
+	- assistant professor,
+	- 8 years in current rank,
+	- masters degree,
+	- 10 years since highest degree was earned (using gradient descent):
+ $21080.772132
+
+Predicted salary of: 
+	- a male employee,
+	- assistant professor,
+	- 8 years in current rank,
+	- masters degree, 
+	- 10 years since highest degree was earned (using gradient descent):
+ $19472.770136
+
+PREDICTION 2
+
+Predicted salary of: 
+	- a female employee,
+	- full professor,
+	- 10 years in current rank,
+	- doctorate degree,
+	- 15 years since highest degree was earned (using gradient descent):
+ $31419.871472
+
+Predicted salary of: 
+	- a male employee,
+	- full professor,
+	- 10 years in current rank,
+	- doctorate degree, 
+	- 15 years since highest degree was earned (using gradient descent):
+ $29811.869477
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Program paused. Press enter to continue.
+
+</pre><h2>================ Part 4: Normal Equations ================<a name="7"></a></h2><pre class="codeinput">fprintf(<span class="string">'Solving with normal equations...\n'</span>);
+</pre><pre class="codeoutput">Solving with normal equations...
+</pre><h2>Load Data<a name="8"></a></h2><pre class="codeinput">data = csvread(<span class="string">'salaries.txt'</span>);
+X = data(:, 1:5);
+[m, n] = size(X);
+y = data(:, n+1);
+
+<span class="comment">% Add intercept term to X</span>
+X = [ones(m, 1) X];
+
+<span class="comment">% Calculate the parameters from the normal equation</span>
+theta = normalEqn(X, y);
+
+<span class="comment">% Display normal equation's result</span>
+fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">'Theta computed from the normal equations: \n'</span>);
+fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">' %f \n'</span>, theta);
+
+<span class="comment">% PREDICTION 1</span>
+<span class="comment">% Estimate the salary of a:</span>
+<span class="comment">% - female employee [1],</span>
+<span class="comment">% - assistant professor [1],</span>
+<span class="comment">% - 8 years in current rank [8],</span>
+<span class="comment">% - master's degree [0],</span>
+<span class="comment">% - 10 years since highest degree was earned [10]</span>
+
+salary1A = [1, 1, 1, 8, 0, 10] * theta;
+
+<span class="comment">% Estimate the salary of a:</span>
+<span class="comment">% - male employee [0],</span>
+<span class="comment">% - assistant professor [1],</span>
+<span class="comment">% - 8 years in current rank [8],</span>
+<span class="comment">% - master's degree [0],</span>
+<span class="comment">% - 10 years since highest degree was earned [10]</span>
+
+salary1B = [1, 0, 1, 8, 0, 10] * theta;
+
+<span class="comment">% PREDICTION 2</span>
+<span class="comment">% Estimate the salary of a:</span>
+<span class="comment">% - female employee [1],</span>
+<span class="comment">% - full professor [3],</span>
+<span class="comment">% - 10 years in current rank [10],</span>
+<span class="comment">% - doctorate degree [1],</span>
+<span class="comment">% - 15 years since highest degree was earned [15]</span>
+
+salary2A = [1, 1, 3, 10, 1, 15] * theta;
+
+<span class="comment">% Estimate the salary of a:</span>
+<span class="comment">% - male employee [0],</span>
+<span class="comment">% - full professor [3],</span>
+<span class="comment">% - 10 years in current rank [10],</span>
+<span class="comment">% - doctorate degree [1],</span>
+<span class="comment">% - 15 years since highest degree was earned [15]</span>
+
+salary2B = [1, 0, 3, 10, 1, 15] * theta;
+
+fprintf(<span class="string">'\n----------------------------------------------------------------------------\n'</span>);
+fprintf(<span class="string">'----------------------------------------------------------------------------\n'</span>);
+fprintf(<span class="string">'PREDICTION 1\n'</span>);
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Predicted salary of: '</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- a female employee,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- assistant professor,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 8 years in current rank,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- masters degree,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 10 years since highest degree was earned '</span> <span class="keyword">...</span>
+    <span class="string">'(using normal equations):\n $%f\n'</span>], salary1A);
+
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Predicted salary of: '</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- a male employee,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- assistant professor,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 8 years in current rank,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- masters degree,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 10 years since highest degree was earned '</span> <span class="keyword">...</span>
+    <span class="string">'(using normal equations):\n $%f\n'</span>], salary1B);
+
+fprintf(<span class="string">'\n'</span>);
+fprintf(<span class="string">'PREDICTION 2\n'</span>);
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Predicted salary of: '</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- a female employee,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- full professor,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 10 years in current rank,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- doctorate degree,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 15 years since highest degree was earned '</span> <span class="keyword">...</span>
+    <span class="string">'(using normal equations):\n $%f\n'</span>], salary2A);
+
+fprintf(<span class="string">'\n'</span>);
+fprintf([<span class="string">'Predicted salary of: '</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- a male employee,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- full professor,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 10 years in current rank,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- doctorate degree,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- 15 years since highest degree was earned '</span> <span class="keyword">...</span>
+    <span class="string">'(using normal equations):\n $%f\n'</span>], salary2B);
+fprintf(<span class="string">'\n----------------------------------------------------------------------------\n'</span>);
+fprintf(<span class="string">'----------------------------------------------------------------------------\n'</span>);
+</pre><pre class="codeoutput">
+Theta computed from the normal equations: 
+
+ 11208.836771 
+ 1648.971250 
+ 5770.156468 
+ 496.512685 
+ -1458.027706 
+ -145.614817 
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+PREDICTION 1
+
+Predicted salary of: 
+	- a female employee,
+	- assistant professor,
+	- 8 years in current rank,
+	- masters degree,
+	- 10 years since highest degree was earned (using normal equations):
+ $21143.917802
+
+Predicted salary of: 
+	- a male employee,
+	- assistant professor,
+	- 8 years in current rank,
+	- masters degree,
+	- 10 years since highest degree was earned (using normal equations):
+ $19494.946552
+
+PREDICTION 2
+
+Predicted salary of: 
+	- a female employee,
+	- full professor,
+	- 10 years in current rank,
+	- doctorate degree,
+	- 15 years since highest degree was earned (using normal equations):
+ $31491.154319
+
+Predicted salary of: 
+	- a male employee,
+	- full professor,
+	- 10 years in current rank,
+	- doctorate degree,
+	- 15 years since highest degree was earned (using normal equations):
+ $29842.183069
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ================ Multivariate Linear Regression ===============
+
+% Based on the Coursera Machine Learning course.
+% Data set: Discrimination in salaries
+% http://data.princeton.edu/wws509/datasets/#salary
+
+% Task: Given a dataset on personal data of university staff, predict the salary,
+% in $, of a proposed employee, using linear regression with feature
+% normalisation. Cross-check the results using normal equations.
+
+% The variables are:
+% sx = Sex, coded 1 for female and 0 for male
+% rk = Rank, coded
+%  - 1 for assistant professor,
+%  - 2 for associate professor, and
+%  - 3 for full professor
+% yr = Number of years in current rank
+% dg = Highest degree, coded 1 if doctorate, 0 if masters
+% yd = Number of years since highest degree was earned
+% sl = Academic year salary, in dollars.
+
+
+%% ================ Part 1: Feature Normalization ================
+
+%% Clear and Close Figures
+clear; close all; clc
+
+fprintf('Loading data ...\n');
+fprintf('\n');
+
+%% Load Data
+data = load('salaries.txt');
+X = data(:, 1:5);
+[m, n] = size(X);
+y = data(:, n+1);
+
+% Print out some data points
+fprintf('First 10 examples from the dataset: \n');
+fprintf('\n');
+fprintf(['Academic salaries based on:\n ' ...
+        '\t- gender, \n\t- rank, \n\t- year in current rank, \n\t- highest degree,' ...
+        '\n\t- years since highest degree']);
+fprintf('\n');
+
+fprintf('\n');
+fprintf(' x = [%.0f %.0f %.0f %.0f %.0f], y = %.0f \n', [X(1:10,:) y(1:10,:)]');
+
+fprintf('\n');
+fprintf('Program paused. Press enter to continue.\n');
+pause;
+
+% Scale features and set them to zero mean
+fprintf('\n');
+fprintf('Normalizing Features ...\n');
+
+[X mu sigma] = featureNormalize(X);
+
+% Add intercept term to X
+X = [ones(m, 1) X];
+
+
+%% ================ Part 2: Gradient Descent ================
+
+fprintf('\n');
+fprintf('Running gradient descent ...\n');
+fprintf('\n');
+
+numIters = 400;
+
+% Init Theta1 and Run Gradient Descent 
+alpha1 = 0.01;
+theta1 = zeros(n+1, 1);
+[theta1, J1_history] = gradientDescent(X, y, theta1, alpha1, numIters);
+
+% Init Theta2 and Run Gradient Descent
+alpha2 = 0.1;
+theta2 = zeros(n+1, 1);
+[theta2, J2_history] = gradientDescent(X, y, theta2, alpha2, numIters);
+
+% Init Theta3 and Run Gradient Descent 
+alpha3 = 0.03;
+theta3 = zeros(n+1, 1);
+[theta3, J3_history] = gradientDescent(X, y, theta3, alpha3, numIters);
+
+% Plot the convergence graph
+figure;
+plot(1:numel(J1_history), J1_history, '-b', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+
+hold on;
+
+plot(1:numel(J2_history), J2_history, '-r', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+
+hold on;
+
+plot(1:numel(J3_history), J3_history, '-g', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+
+% Create legend data
+a1 = num2str(alpha1);
+a2 = num2str(alpha2);
+a3 = num2str(alpha3);
+
+l1 = strcat('\alpha 1 = ', a1);
+l2 = strcat('\alpha 2 = ', a2);
+l3 = strcat('\alpha 3 = ', a3);
+
+legend(l1, l2, l3);
+
+% Display gradient descent's result
+fprintf('Theta computed from gradient descent: \n');
+fprintf('\n');
+fprintf(' %f \n', theta2);
+
+%% ================ Part 3: Gradient Descent Predictions ================
+
+% PREDICTION 1
+% Estimate the salary of a:
+% - female employee [1], 
+% - assistant professor [1], 
+% - 8 years in current rank [8], 
+% - master's degree [0], 
+% - 10 years since highest degree was earned [10]
+
+x = [1; (1-mu(1))/sigma(1); (1-mu(2))/sigma(2); (8-mu(3))/sigma(3); (0-mu(4))/sigma(4); (10-mu(5))/sigma(5)];
+salary1A = theta2' * x;
+
+% Estimate the salary of a:
+% - male employee [0], 
+% - assistant professor [1], 
+% - 8 years in current rank [8], 
+% - master's degree [0], 
+% - 10 years since highest degree was earned [10]
+
+x = [1; (0-mu(1))/sigma(1); (1-mu(2))/sigma(2); (8-mu(3))/sigma(3); (0-mu(4))/sigma(4); (10-mu(5))/sigma(5)];
+salary1B = theta2' * x;
+
+% PREDICTION 2
+% Estimate the salary of a:
+% - female employee [1], 
+% - full professor [3], 
+% - 10 years in current rank [10], 
+% - doctorate degree [1], 
+% - 15 years since highest degree was earned [15]
+
+x = [1; (1-mu(1))/sigma(1); (3-mu(2))/sigma(2); (10-mu(3))/sigma(3); (1-mu(4))/sigma(4); (15-mu(5))/sigma(5)];
+salary2A = theta2' * x;
+
+% Estimate the salary of a:
+% - male employee [0], 
+% - full professor [3], 
+% - 10 years in current rank [10], 
+% - doctorate degree [1], 
+% - 15 years since highest degree was earned [15]
+
+x = [1; (0-mu(1))/sigma(1); (3-mu(2))/sigma(2); (10-mu(3))/sigma(3); (1-mu(4))/sigma(4); (15-mu(5))/sigma(5)];
+salary2B = theta2' * x;
+
+fprintf('\nREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+fprintf('REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+fprintf('PREDICTION 1\n');
+fprintf('\n');
+fprintf(['Predicted salary of: ' ...
+    '\n\t- a female employee,' ...
+    '\n\t- assistant professor,' ...
+    '\n\t- 8 years in current rank,' ...
+    '\n\t- masters degree,' ...
+    '\n\t- 10 years since highest degree was earned ' ...
+    '(using gradient descent):\n $%f\n'], salary1A);
+     
+fprintf('\n');
+fprintf(['Predicted salary of: ' ...
+    '\n\t- a male employee,' ...
+    '\n\t- assistant professor,' ...
+    '\n\t- 8 years in current rank,' ...
+    '\n\t- masters degree, '...
+    '\n\t- 10 years since highest degree was earned ' ...
+    '(using gradient descent):\n $%f\n'], salary1B);
+
+fprintf('\n');
+fprintf('PREDICTION 2\n');
+fprintf('\n');
+fprintf(['Predicted salary of: ' ...
+    '\n\t- a female employee,' ...
+    '\n\t- full professor,' ...
+    '\n\t- 10 years in current rank,' ...
+    '\n\t- doctorate degree,' ...
+    '\n\t- 15 years since highest degree was earned ' ...
+    '(using gradient descent):\n $%f\n'], salary2A);
+
+fprintf('\n');
+fprintf(['Predicted salary of: ' ...
+    '\n\t- a male employee,' ...
+    '\n\t- full professor,' ...
+    '\n\t- 10 years in current rank,' ...
+    '\n\t- doctorate degree, '...
+    '\n\t- 15 years since highest degree was earned ' ...
+    '(using gradient descent):\n $%f\n'], salary2B);
+fprintf('\nREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+fprintf('REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+
+fprintf('Program paused. Press enter to continue.\n');
+fprintf('\n');
+pause;
+
+%% ================ Part 4: Normal Equations ================
+
+fprintf('Solving with normal equations...\n');
+
+%% Load Data
+data = csvread('salaries.txt');
+X = data(:, 1:5);
+[m, n] = size(X);
+y = data(:, n+1);
+
+% Add intercept term to X
+X = [ones(m, 1) X];
+
+% Calculate the parameters from the normal equation
+theta = normalEqn(X, y);
+
+% Display normal equation's result
+fprintf('\n');
+fprintf('Theta computed from the normal equations: \n');
+fprintf('\n');
+fprintf(' %f \n', theta);
+
+% PREDICTION 1
+% Estimate the salary of a:
+% - female employee [1], 
+% - assistant professor [1], 
+% - 8 years in current rank [8], 
+% - master's degree [0], 
+% - 10 years since highest degree was earned [10]
+
+salary1A = [1, 1, 1, 8, 0, 10] * theta;
+
+% Estimate the salary of a:
+% - male employee [0], 
+% - assistant professor [1], 
+% - 8 years in current rank [8], 
+% - master's degree [0], 
+% - 10 years since highest degree was earned [10]
+
+salary1B = [1, 0, 1, 8, 0, 10] * theta;
+
+% PREDICTION 2
+% Estimate the salary of a:
+% - female employee [1], 
+% - full professor [3], 
+% - 10 years in current rank [10], 
+% - doctorate degree [1], 
+% - 15 years since highest degree was earned [15]
+
+salary2A = [1, 1, 3, 10, 1, 15] * theta;
+
+% Estimate the salary of a:
+% - male employee [0], 
+% - full professor [3], 
+% - 10 years in current rank [10], 
+% - doctorate degree [1], 
+% - 15 years since highest degree was earned [15]
+
+salary2B = [1, 0, 3, 10, 1, 15] * theta;
+
+fprintf('\nREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+fprintf('REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+fprintf('PREDICTION 1\n');
+fprintf('\n');
+fprintf(['Predicted salary of: ' ...
+    '\n\t- a female employee,' ...
+    '\n\t- assistant professor,' ...
+    '\n\t- 8 years in current rank,' ...
+    '\n\t- masters degree,' ...
+    '\n\t- 10 years since highest degree was earned ' ...
+    '(using normal equations):\n $%f\n'], salary1A);
+
+fprintf('\n');
+fprintf(['Predicted salary of: ' ...
+    '\n\t- a male employee,' ...
+    '\n\t- assistant professor,' ...
+    '\n\t- 8 years in current rank,' ...
+    '\n\t- masters degree,' ...
+    '\n\t- 10 years since highest degree was earned ' ...
+    '(using normal equations):\n $%f\n'], salary1B);
+
+fprintf('\n');
+fprintf('PREDICTION 2\n');
+fprintf('\n');
+fprintf(['Predicted salary of: ' ...
+    '\n\t- a female employee,' ...
+    '\n\t- full professor,' ...
+    '\n\t- 10 years in current rank,' ...
+    '\n\t- doctorate degree,' ...
+    '\n\t- 15 years since highest degree was earned ' ...
+    '(using normal equations):\n $%f\n'], salary2A);
+
+fprintf('\n');
+fprintf(['Predicted salary of: ' ...
+    '\n\t- a male employee,' ...
+    '\n\t- full professor,' ...
+    '\n\t- 10 years in current rank,' ...
+    '\n\t- doctorate degree,' ...
+    '\n\t- 15 years since highest degree was earned ' ...
+    '(using normal equations):\n $%f\n'], salary2B);
+fprintf('\nREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+fprintf('REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+
+##### SOURCE END #####
+--></body></html>
