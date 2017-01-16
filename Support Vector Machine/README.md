@@ -1,6 +1,6 @@
-Support Vector Machine
-======================
+# Support Vector Machine
 
-Executable scripts:
+Executable file: execute.m.
 
-execute_SVM.m: trains the SVM and makes predictions based on given input values
+There is also a published html version of the output of this executable inside the html folder.
+
