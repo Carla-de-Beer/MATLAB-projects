@@ -1,13 +1,9 @@
+function x = gauss(A,b)
 % Gauss elimination function with backward substitution
 % Achieves the same result as the built-in MATLAB function: A\b
 % Algorithm taken from: 
 % Burden, Faires, Burden. 2014. "Numerical Analysis". 10th Edition, Cengage Learning, p368
 % Created: July 2015
-
-% Example variables:    A = [3, -1, 1; 3, 6, 2; 3, 3, 7]
-%                       b = [1; 0; 4]
-
-function x = gauss(A,b)
 
     n = size(A,1)   % getting n (number of rows)
     A = [A b];      % produces the augmented matrix
@@ -20,7 +16,7 @@ function x = gauss(A,b)
             p = p+1;    % increment p if first element is zero (i.e. identify next pivot)
         end
         if p == n+1     % no unique solution if all the row elements are zero
-            disp('No unique solution (1).'); 
+            fprintf('No unique solution (1).'); 
             return;
         if p ~= i;              %if p != i, then exchange rows i and p
                 T = A(i,:);     % T is a temporary matrix used for swapping
@@ -41,7 +37,7 @@ function x = gauss(A,b)
 
     if A(n,n) == 0 
         count
-        disp('No unique solution (2).'); 
+        fprintf('No unique solution (2).'); 
         return; 
     end
 
@@ -60,6 +56,6 @@ function x = gauss(A,b)
     end
 
     count
-    disp('Procedure completed successfully.');   
+    fprintf('Procedure completed successfully.');   
 end
 

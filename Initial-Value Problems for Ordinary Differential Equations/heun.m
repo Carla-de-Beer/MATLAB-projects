@@ -1,14 +1,9 @@
+function [t, w] = heun(f, a, b, alpha, N)
 % The Runge-Kutta method (order 4) to solve an initial value problem
 % Algorithm taken from:
 % Burden, Faires, Burden. 2014. "Numerical Analysis". 10th Edition, Cengage
 % Learning, p287
 % Created: October 2015
-
-% Example variables:    f = @(t,y) (y - t^2 + 1)
-%                       a = 0; b = 1; alpha = 0.5
-%                       N = 10
-
-function [ t, w ] = heun( f, a, b, alpha, N )
 
     h = (b - a)/N;
     t(1) = a;
@@ -23,15 +18,16 @@ function [ t, w ] = heun( f, a, b, alpha, N )
         w(k+1,:) = w(k) + (k1 + 3*k3)/4;
         t(k+1,:) = t(k) + h;
         
-        exact = (t(k+1,:) + 1)^2 - 0.5*exp(t(k+1,:));  
+        exact = (t(k+1,:) + 1)^2 - 0.5 * exp(t(k+1,:));  
         error = norm(exact - w(k+1,:));  
         
     end       
     
-    disp('Heun method completed.');      
+    fprintf('Heun Method completed.\n');   
     plot(t, w, '--b*');
-    xlabel('Time (t)')
-    ylabel('Function output per time step (w)')
+    xlabel('Time (t)');
+    ylabel('Function output per time step (w)');
+    title('Heun Method');
     
     error
     
