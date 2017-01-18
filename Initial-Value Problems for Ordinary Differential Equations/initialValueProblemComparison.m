@@ -16,7 +16,7 @@ function [t, w, error] = initialValueProblemComparison()
  
  hold on;
  [t, w, error] = rk45(f, a, b, alpha, N)
- legend('Euler','Heun', 'RK45' )
+ legend('Euler','Heun', 'RK45')
 
 end
 
