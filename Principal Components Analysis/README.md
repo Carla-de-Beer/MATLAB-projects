@@ -1,4 +1,4 @@
-# K-Means Clustering
+# Principal Components Analysis
 
 Executable file: execute.m.
 
