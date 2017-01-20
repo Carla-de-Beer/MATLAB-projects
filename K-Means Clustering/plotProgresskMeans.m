@@ -23,7 +23,9 @@ else
          'MarkerSize', 10, 'LineWidth', 1.5);  
 end
 
-legend('centroids(:,1)');
+h = zeros(1, 1);
+h(1) = plot(NaN, NaN, 'Color', [0.941 0.141 0.447], 'Marker', 'o', 'LineStyle', 'none', 'MarkerSize', 10, 'LineWidth', 1.5);
+legend(h, 'Centroid');
 
 % Plot the history of the centroids with lines
 for j = 1:size(centroids,1)
