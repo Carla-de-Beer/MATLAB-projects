@@ -83,17 +83,22 @@ fprintf('Dimension reduction on the two datasets.');
 fprintf('\n---------------------------------------------\n');
 
 %  Plot the normalized dataset (returned from pca)
-scatter3(X_norm_c(:, 1), X_norm_c(:, 2), X_norm_c(:, 3), 'filled', 'bo');
-title('Principal Component analysis: Cartoons and Photos');
+figure;
+scatter3(X_norm_c(:, 1), X_norm_c(:, 2), X_norm_c(:, 3), 'filled', 'rh');
 hold on;
 grid on;
 
-scatter3(X_norm_p(:, 1), X_norm_p(:, 2), X_norm_p(:, 3), 'filled', 'rh');
+scatter3(X_norm_p(:, 1), X_norm_p(:, 2), X_norm_p(:, 3), 'filled', 'bo');
 rotate3d on;
 
 xlabel('x: component 1');
 ylabel('y: component 2');
 zlabel('z: component 3');
 
-legend('Cartoons','Photos')
+h = zeros(2, 1);
+h(1) = plot(NaN, NaN, 'rh');
+h(2) = plot(NaN, NaN, 'bo');
+legend(h, 'Cartoon','Photo');
+
+title({'Principal Component analysis:';'Cartoons and Photos'})
 

@@ -138,15 +138,15 @@ dimensions for visualisation purpuses).
 ---------------------------------------------
 
 Best k for the Cartoon set:
-The best k-value is: 3
-Variance retained for the best k: 0.990387%. 
+The best k-value is: 7
+Variance retained for the best k: 0.990071%. 
 
 Best k for the Photo set:
-The best k-value is: 7
-Variance retained for the best k: 0.994265%. 
+The best k-value is: 8
+Variance retained for the best k: 0.991987%. 
 
 For visualisation purposes k = 3.
-Variance retained for current k: 0.512127%. 
+Variance retained for current k: 0.428756%. 
 
 </pre><h2>=================== Part 3: Dimension Reduction ===================<a name="5"></a></h2><pre>Implementing the projection step to map the data onto the
 first k eigenvectors. The code will then plot the data in this reduced
@@ -155,19 +155,24 @@ fprintf(<span class="string">'Dimension reduction on the two datasets.'</span>);
 fprintf(<span class="string">'\n---------------------------------------------\n'</span>);
 
 <span class="comment">%  Plot the normalized dataset (returned from pca)</span>
-scatter3(X_norm_c(:, 1), X_norm_c(:, 2), X_norm_c(:, 3), <span class="string">'filled'</span>, <span class="string">'bo'</span>);
-title(<span class="string">'Principal Component analysis: Cartoons and Photos'</span>);
+figure;
+scatter3(X_norm_c(:, 1), X_norm_c(:, 2), X_norm_c(:, 3), <span class="string">'filled'</span>, <span class="string">'rh'</span>);
 hold <span class="string">on</span>;
 grid <span class="string">on</span>;
 
-scatter3(X_norm_p(:, 1), X_norm_p(:, 2), X_norm_p(:, 3), <span class="string">'filled'</span>, <span class="string">'rh'</span>);
+scatter3(X_norm_p(:, 1), X_norm_p(:, 2), X_norm_p(:, 3), <span class="string">'filled'</span>, <span class="string">'bo'</span>);
 rotate3d <span class="string">on</span>;
 
 xlabel(<span class="string">'x: component 1'</span>);
 ylabel(<span class="string">'y: component 2'</span>);
 zlabel(<span class="string">'z: component 3'</span>);
 
-legend(<span class="string">'Cartoons'</span>,<span class="string">'Photos'</span>)
+h = zeros(2, 1);
+h(1) = plot(NaN, NaN, <span class="string">'rh'</span>);
+h(2) = plot(NaN, NaN, <span class="string">'bo'</span>);
+legend(h, <span class="string">'Cartoon'</span>,<span class="string">'Photo'</span>);
+
+title({<span class="string">'Principal Component analysis:'</span>;<span class="string">'Cartoons and Photos'</span>})
 </pre><pre class="codeoutput">---------------------------------------------
 Dimension reduction on the two datasets.
 ---------------------------------------------
@@ -258,19 +263,24 @@ fprintf('Dimension reduction on the two datasets.');
 fprintf('\nREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-\n');
 
 %  Plot the normalized dataset (returned from pca)
-scatter3(X_norm_c(:, 1), X_norm_c(:, 2), X_norm_c(:, 3), 'filled', 'bo');
-title('Principal Component analysis: Cartoons and Photos');
+figure;
+scatter3(X_norm_c(:, 1), X_norm_c(:, 2), X_norm_c(:, 3), 'filled', 'rh');
 hold on;
 grid on;
 
-scatter3(X_norm_p(:, 1), X_norm_p(:, 2), X_norm_p(:, 3), 'filled', 'rh');
+scatter3(X_norm_p(:, 1), X_norm_p(:, 2), X_norm_p(:, 3), 'filled', 'bo');
 rotate3d on;
 
 xlabel('x: component 1');
 ylabel('y: component 2');
 zlabel('z: component 3');
 
-legend('Cartoons','Photos')
+h = zeros(2, 1);
+h(1) = plot(NaN, NaN, 'rh');
+h(2) = plot(NaN, NaN, 'bo');
+legend(h, 'Cartoon','Photo');
+
+title({'Principal Component analysis:';'Cartoons and Photos'})
 
 
 ##### SOURCE END #####
