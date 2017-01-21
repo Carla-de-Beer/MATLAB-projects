@@ -22,9 +22,24 @@ else
         'MarkerSize', 10, 'LineWidth', 1.5);
 end
 
-h = zeros(1, 1);
-h(1) = plot(NaN, NaN, 'Color', [0.941 0.141 0.447], 'Marker', 'o', 'LineStyle', 'none', 'MarkerSize', 10, 'LineWidth', 1.5);
-legend(h, 'Centroid');
+h = zeros(4, 1);
+h(1) = plot(NaN, NaN, 'Color', [0.941 0.141 0.447],...
+    'Marker', 'o','LineStyle', 'none',...
+    'MarkerSize', 10, 'LineWidth', 1.5);
+
+h(2) = plot(NaN, NaN, 'Color', 'c',...
+    'Marker', 'o','LineStyle', 'none',...
+    'MarkerSize', 6, 'LineWidth', 0.7);
+
+h(3) = plot(NaN, NaN, 'Color', 'g',...
+    'Marker', 'o','LineStyle', 'none',...
+    'MarkerSize', 6, 'LineWidth', 0.7);
+
+h(4) = plot(NaN, NaN, 'Color', 'r',...
+    'Marker', 'o','LineStyle', 'none',...
+    'MarkerSize', 6, 'LineWidth', 0.7);
+
+legend(h, 'Computed cluster centroid', 'Cluster 1', 'Cluster 2', 'Cluster 3');
 
 % Plot the history of the centroids with lines
 for j = 1:size(centroids,1)
