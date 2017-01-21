@@ -1,5 +1,5 @@
-function [output_args] = getBestK(X)
-%Get the most suitable k-value 
+function getBestK(X)
+%GETBESTK computes the most suitable k-value for the dataset X.
 
 % Useful values
 [m, n] = size(X);
@@ -9,11 +9,11 @@ U = zeros(n);
 S = zeros(n);
 
 for c = 1:n-1
-
+    
     Sigma = (X' * X) / m;
-
+    
     [U, S, V] = svd(Sigma);
-
+    
     % Check for 99% of retained variance using the S matrix:
     % Add up diagonal values up to k places
     total1 = 0;
@@ -25,7 +25,7 @@ for c = 1:n-1
             end
         end
     end
-
+    
     variance_retained = total1/trace(S);
     % fprintf('Variance retained: %f\n', variance_retained);
     
@@ -37,7 +37,7 @@ for c = 1:n-1
         return;
     end
     
-  end
+end
 
 end
 

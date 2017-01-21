@@ -3,7 +3,7 @@
 % Based on the Coursera Machine Learning course.
 %
 % Using Principal Component Analysis to reduce a high-D dataset to a 3D
-% dataset for better visualisation. 
+% dataset to facilitate visualisation.
 % The data is taken from the colour bin values of two types of images, cartoons and photos,
 % in order to determine whether there is a visual differentiation between
 % the two datasets.
@@ -15,21 +15,20 @@ clear; close all; clc
 
 %% ================== Part 1: Load Example Dataset  ===================
 
-X_c = load('CSV_files/Cartoons.csv');
+X_c = load('sourceFiles/Cartoons.csv');
 X_c = X_c';
 
-X_p = load('CSV_files/Photos.csv');
+X_p = load('sourceFiles/Photos.csv');
 X_p = X_p';
 
 [m, n] = size(X_c);
 
 %% =============== Part 2: Principal Component Analysis ===============
-%  Implementing PCA, a dimension reduction technique. 
+%  Implementing PCA, a dimension reduction technique.
 
 fprintf('---------------------------------------------\n');
 fprintf('Running PCA on the two datasets.');
 fprintf('\n---------------------------------------------\n');
-
 
 %  Before running PCA, it is important to first normalize X
 [X_norm_c, mu_c, sigma_c] = featureNormalize(X_c);
@@ -74,9 +73,9 @@ fprintf('%%. \n\n');
 
 
 %% =================== Part 3: Dimension Reduction ===================
-%  Implementing the projection step to map the data onto the 
-%  first k eigenvectors. The code will then plot the data in this reduced 
-%  dimensional space.  
+%  Implementing the projection step to map the data onto the
+%  first k eigenvectors. The code will then plot the data in this reduced
+%  dimensional space.
 
 fprintf('---------------------------------------------\n');
 fprintf('Dimension reduction on the two datasets.');

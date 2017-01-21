@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>diamonds</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-01-16"><meta name="DC.source" content="diamonds.m"><style type="text/css">
+      --><title>execute_diamonds</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-01-21"><meta name="DC.source" content="execute_diamonds.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -96,7 +96,7 @@ fprintf(<span class="string">'Loading data ...\n'</span>);
 fprintf(<span class="string">'\n'</span>);
 </pre><pre class="codeoutput">Loading data ...
 
-</pre><h2>Load Data<a name="4"></a></h2><pre class="codeinput">data = load(<span class="string">'diamonds.txt'</span>);
+</pre><h2>Load Data<a name="4"></a></h2><pre class="codeinput">data = load(<span class="string">'sourceFiles/diamonds.txt'</span>);
 X = data(:, 1:5);
 [m, n] = size(X);
 y = data(:, n+1);
@@ -105,8 +105,8 @@ y = data(:, n+1);
 fprintf(<span class="string">'First 10 examples from the dataset: \n'</span>);
 fprintf(<span class="string">'\n'</span>);
 fprintf([<span class="string">'Diamonds rated on:\n '</span> <span class="keyword">...</span>
-        <span class="string">'\t- carat, \n\t- colour, \n\t- clarity, \n\t- depth,'</span> <span class="keyword">...</span>
-        <span class="string">'\n\t- price/ct'</span>]);
+    <span class="string">'\t- carat, \n\t- colour, \n\t- clarity, \n\t- depth,'</span> <span class="keyword">...</span>
+    <span class="string">'\n\t- price/ct'</span>]);
 fprintf(<span class="string">'\n'</span>);
 
 fprintf(<span class="string">'\n'</span>);
@@ -213,7 +213,7 @@ Theta computed from gradient descent:
  -901.244941 
  -494.053443 
  2067.099876 
-</pre><img vspace="5" hspace="5" src="diamonds_01.png" style="width:560px;height:420px;" alt=""> <h2>================ Part 3: Gradient Descent Results Predictions ================<a name="6"></a></h2><pre class="codeinput"><span class="comment">% PREDICTION 1</span>
+</pre><img vspace="5" hspace="5" src="execute_diamonds_01.png" style="width:560px;height:420px;" alt=""> <h2>================ Part 3: Gradient Descent Results Predictions ================<a name="6"></a></h2><pre class="codeinput"><span class="comment">% PREDICTION 1</span>
 <span class="comment">% Estimate the total price (in $) of the following diamond:</span>
 <span class="comment">% - carat: 0.45,</span>
 <span class="comment">% - colour: E [2],</span>
@@ -293,7 +293,7 @@ Program paused. Press enter to continue.
 
 </pre><h2>================ Part 4: Normal Equations &amp; Predictons ================<a name="7"></a></h2><pre class="codeinput">fprintf(<span class="string">'Solving with normal equations...\n'</span>);
 </pre><pre class="codeoutput">Solving with normal equations...
-</pre><h2>Load Data<a name="8"></a></h2><pre class="codeinput">data = load(<span class="string">'diamonds.txt'</span>);
+</pre><h2>Load Data<a name="8"></a></h2><pre class="codeinput">data = load(<span class="string">'sourceFiles/diamonds.txt'</span>);
 X = data(:, 1:5);
 [m, n] = size(X);
 y = data(:, n+1);
@@ -407,7 +407,7 @@ Predicted total price of a diamond with the following characteristics:
 % Colour: coded as D (most white/bright) through J (D = 1; J = 7)
 % Clarity: Coded as IF, VVS1, VVS2, VS1, VS2, VS2, SI2, or SI3
 %   - IF = 1
-%   - VVS1 = 2 
+%   - VVS1 = 2
 %   - VVS2 = 3
 %   - VS1 = 4
 %   - VS2 = 5
@@ -427,7 +427,7 @@ fprintf('Loading data ...\n');
 fprintf('\n');
 
 %% Load Data
-data = load('diamonds.txt');
+data = load('sourceFiles/diamonds.txt');
 X = data(:, 1:5);
 [m, n] = size(X);
 y = data(:, n+1);
@@ -436,8 +436,8 @@ y = data(:, n+1);
 fprintf('First 10 examples from the dataset: \n');
 fprintf('\n');
 fprintf(['Diamonds rated on:\n ' ...
-        '\t- carat, \n\t- colour, \n\t- clarity, \n\t- depth,' ...
-        '\n\t- price/ct']);
+    '\t- carat, \n\t- colour, \n\t- clarity, \n\t- depth,' ...
+    '\n\t- price/ct']);
 fprintf('\n');
 
 fprintf('\n');
@@ -466,7 +466,7 @@ fprintf('\n');
 
 numIters = 400;
 
-% Init Theta1 and Run Gradient Descent 
+% Init Theta1 and Run Gradient Descent
 alpha1 = 0.01;
 theta1 = zeros(n+1, 1);
 [theta1, J1_history] = gradientDescent(X, y, theta1, alpha1, numIters);
@@ -476,7 +476,7 @@ alpha2 = 0.3;
 theta2 = zeros(n+1, 1);
 [theta2, J2_history] = gradientDescent(X, y, theta2, alpha2, numIters);
 
-% Init Theta3 and Run Gradient Descent 
+% Init Theta3 and Run Gradient Descent
 alpha3 = 0.03;
 theta3 = zeros(n+1, 1);
 [theta3, J3_history] = gradientDescent(X, y, theta3, alpha3, numIters);
@@ -519,10 +519,10 @@ fprintf(' %f \n', theta2);
 
 % PREDICTION 1
 % Estimate the total price (in $) of the following diamond:
-% - carat: 0.45, 
-% - colour: E [2], 
-% - clarity: VVS1 [2], 
-% - depth: 62.3, 
+% - carat: 0.45,
+% - colour: E [2],
+% - clarity: VVS1 [2],
+% - depth: 62.3,
 % - price/ct: 3342.1
 
 x = [1; (0.45-mu(1))/sigma(1); (2-mu(2))/sigma(2); (2-mu(3))/sigma(3); (62.3-mu(4))/sigma(4); (3342.1-mu(5))/sigma(5)];
@@ -530,10 +530,10 @@ price1 = theta2' * x;
 
 % PREDICTION 2
 % Estimate the total price (in $) of the following diamond:
-% - carat: 1.25, 
-% - colour: G [4], 
-% - clarity: VS2 [5], 
-% - depth: 74.7, 
+% - carat: 1.25,
+% - colour: G [4],
+% - clarity: VS2 [5],
+% - depth: 74.7,
 % - price/ct: 5478.3
 
 x = [1; (1.25-mu(1))/sigma(1); (4-mu(2))/sigma(2); (5-mu(3))/sigma(3); (74.7-mu(4))/sigma(4); (5478.3-mu(5))/sigma(5)];
@@ -561,7 +561,7 @@ fprintf(['Predicted total price of a diamond with the following characteristics:
     '\n\t- depth: 74.7,' ...
     '\n\t- price/ct: 5478.3 ' ...
     '(using gradient descent):\n $%f\n'], price2);
-    
+
 fprintf('\nREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
 fprintf('REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
 
@@ -574,11 +574,11 @@ pause;
 fprintf('Solving with normal equations...\n');
 
 %% Load Data
-data = load('diamonds.txt');
+data = load('sourceFiles/diamonds.txt');
 X = data(:, 1:5);
 [m, n] = size(X);
 y = data(:, n+1);
- 
+
 % Add intercept term to X
 X = [ones(m, 1) X];
 
@@ -593,20 +593,20 @@ fprintf(' %f \n', theta);
 
 % PREDICTION 1
 % Estimate the total price (in $) of the following diamond:
-% - carat: 0.45, 
-% - colour: E [2], 
-% - clarity: VVS1 [2], 
-% - depth: 62.3, 
+% - carat: 0.45,
+% - colour: E [2],
+% - clarity: VVS1 [2],
+% - depth: 62.3,
 % - price/ct: 3342.1
 
 price1 = [1, 0.45, 2, 2, 62.3, 3342.1] * theta;
 
 % PREDICTION 2
 % Estimate the total price (in $) of the following diamond:
-% - carat: 1.25, 
-% - colour: G [4], 
-% - clarity: VS2 [5], 
-% - depth: 74.7, 
+% - carat: 1.25,
+% - colour: G [4],
+% - clarity: VS2 [5],
+% - depth: 74.7,
 % - price/ct: 5478.3
 
 price2 = [1, 1.25, 4, 5, 74.7, 5478.3] * theta;
@@ -633,7 +633,7 @@ fprintf(['Predicted total price of a diamond with the following characteristics:
     '\n\t- depth: 74.7,' ...
     '\n\t- price/ct: 5478.3 ' ...
     '(using gradient descent):\n $%f\n'], price2);
-     
+
 fprintf('\nREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
 fprintf('REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
 

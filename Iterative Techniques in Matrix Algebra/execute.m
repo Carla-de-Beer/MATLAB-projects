@@ -1,3 +1,7 @@
+%% Iterative Techniques in Matrix Algebra
+%
+% Created: January 2017
+
 %% Initialization
 clear; close all; clc
 

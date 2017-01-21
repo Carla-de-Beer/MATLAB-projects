@@ -1,6 +1,6 @@
 function visualizeBoundary(X, y, model, varargin)
-%VISUALIZEBOUNDARY plots a non-linear decision boundary learned by the SVM
-%   VISUALIZEBOUNDARYLINEAR(X, y, model) plots a non-linear decision 
+%VISUALIZEBOUNDARY plots a non-linear decision boundary learned by the SVM.
+%   VISUALIZEBOUNDARYLINEAR(X, y, model) plots a non-linear decision
 %   boundary learned by the SVM and overlays the data on it
 
 % Plot the training data on top of the boundary
@@ -13,8 +13,8 @@ x2plot = linspace(min(X(:,2)), max(X(:,2)), 100)';
 vals = zeros(size(X1));
 
 for i = 1:size(X1, 2)
-   this_X = [X1(:, i), X2(:, i)];
-   vals(:, i) = svmPredict(model, this_X);
+    this_X = [X1(:, i), X2(:, i)];
+    vals(:, i) = svmPredict(model, this_X);
 end
 
 % Plot the SVM boundary

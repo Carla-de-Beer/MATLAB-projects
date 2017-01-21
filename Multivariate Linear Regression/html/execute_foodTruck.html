@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>food_truck_profit</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-01-16"><meta name="DC.source" content="food_truck_profit.m"><style type="text/css">
+      --><title>execute_foodTruck</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-01-21"><meta name="DC.source" content="execute_foodTruck.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -74,7 +74,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 </pre><h2>Initialization<a name="2"></a></h2><pre class="codeinput">clear; close <span class="string">all</span>; clc
 </pre><h2>======================= Part 2: Plotting =======================<a name="3"></a></h2><pre class="codeinput">fprintf(<span class="string">'Plotting Data ...\n'</span>)
 fprintf(<span class="string">'\n'</span>);
-data = load(<span class="string">'food_truck_profit.txt'</span>);
+data = load(<span class="string">'sourceFiles/food_truck_profit.txt'</span>);
 X = data(:, 1); y = data(:, 2);
 m = length(y); <span class="comment">% number of training examples</span>
 
@@ -86,7 +86,7 @@ pause;
 </pre><pre class="codeoutput">Plotting Data ...
 
 Program paused. Press enter to continue.
-</pre><img vspace="5" hspace="5" src="food_truck_profit_01.png" style="width:560px;height:420px;" alt=""> <h2>=================== Part 3: Gradient descent ===================<a name="4"></a></h2><pre class="codeinput">fprintf(<span class="string">'\n'</span>);
+</pre><img vspace="5" hspace="5" src="execute_foodTruck_01.png" style="width:560px;height:420px;" alt=""> <h2>=================== Part 3: Gradient descent ===================<a name="4"></a></h2><pre class="codeinput">fprintf(<span class="string">'\n'</span>);
 fprintf(<span class="string">'Running Gradient Descent ...\n'</span>)
 
 X = [ones(m, 1), data(:,1)]; <span class="comment">% Add a column of ones to x</span>
@@ -138,7 +138,7 @@ For population = 35,000, we predict a profit of: 4519.767868
 For population = 70,000, we predict a profit of: 45342.450129
 
 Program paused. Press enter to continue.
-</pre><img vspace="5" hspace="5" src="food_truck_profit_02.png" style="width:560px;height:420px;" alt=""> <h2>============= Part 4: Visualizing J(theta_0, theta_1) =============<a name="5"></a></h2><pre class="codeinput">fprintf(<span class="string">'\n'</span>);
+</pre><img vspace="5" hspace="5" src="execute_foodTruck_02.png" style="width:560px;height:420px;" alt=""> <h2>============= Part 4: Visualizing J(theta_0, theta_1) =============<a name="5"></a></h2><pre class="codeinput">fprintf(<span class="string">'\n'</span>);
 fprintf(<span class="string">'Visualizing J(theta_0, theta_1) ...\n'</span>)
 
 <span class="comment">% Grid over which we will calculate J</span>
@@ -151,8 +151,8 @@ J_vals = zeros(length(theta0_vals), length(theta1_vals));
 <span class="comment">% Fill out J_vals</span>
 <span class="keyword">for</span> i = 1:length(theta0_vals)
     <span class="keyword">for</span> j = 1:length(theta1_vals)
-	  t = [theta0_vals(i); theta1_vals(j)];
-	  J_vals(i,j) = computeCost(X, y, t);
+        t = [theta0_vals(i); theta1_vals(j)];
+        J_vals(i,j) = computeCost(X, y, t);
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 
@@ -173,7 +173,7 @@ hold <span class="string">on</span>;
 plot(theta(1), theta(2), <span class="string">'rx'</span>, <span class="string">'MarkerSize'</span>, 10, <span class="string">'LineWidth'</span>, 2);
 </pre><pre class="codeoutput">
 Visualizing J(theta_0, theta_1) ...
-</pre><img vspace="5" hspace="5" src="food_truck_profit_03.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="food_truck_profit_04.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="execute_foodTruck_03.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="execute_foodTruck_04.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% ================ Univariate Linear Regression ===============
 
@@ -189,7 +189,7 @@ clear; close all; clc
 %% ======================= Part 2: Plotting =======================
 fprintf('Plotting Data ...\n')
 fprintf('\n');
-data = load('food_truck_profit.txt');
+data = load('sourceFiles/food_truck_profit.txt');
 X = data(:, 1); y = data(:, 2);
 m = length(y); % number of training examples
 
@@ -255,12 +255,12 @@ J_vals = zeros(length(theta0_vals), length(theta1_vals));
 % Fill out J_vals
 for i = 1:length(theta0_vals)
     for j = 1:length(theta1_vals)
-	  t = [theta0_vals(i); theta1_vals(j)];    
-	  J_vals(i,j) = computeCost(X, y, t);
+        t = [theta0_vals(i); theta1_vals(j)];
+        J_vals(i,j) = computeCost(X, y, t);
     end
 end
 
-% Because of the way meshgrids work in the surf command, we need to 
+% Because of the way meshgrids work in the surf command, we need to
 % transpose J_vals before calling surf, or else the axes will be flipped
 J_vals = J_vals';
 % Surface plot

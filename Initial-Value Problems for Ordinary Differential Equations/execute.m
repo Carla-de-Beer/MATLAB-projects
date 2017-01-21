@@ -1,3 +1,7 @@
+%% Initial-Value Problems for Ordinary Differential Equations
+%
+% Created: January 2017
+
 %% Initialization
 clear; close all; clc
 
@@ -8,8 +12,8 @@ fprintf('\nExecuting the Euler Method ...\n');
 fprintf('\n------------------------------\n');
 
 f = @(t,y) (y - t^2 + 1);
-a = 0; 
-b = 1; 
+a = 0;
+b = 1;
 alpha = 0.5;
 N = 10;
 
@@ -25,8 +29,8 @@ fprintf('\nExecuting the Euler Method ...\n');
 fprintf('\n------------------------------\n');
 
 f = @(t,y) (y - t^2 + 1)
-a = 0; 
-b = 1; 
+a = 0;
+b = 1;
 alpha = 0.5;
 N = 10;
 
@@ -44,8 +48,8 @@ fprintf('\nExecuting the Runge-Kutta Method (order 4) ...\n');
 fprintf('\n----------------------------------------------\n');
 
 f = @(t,y) (y - t^2 + 1)
-a = 0; 
-b = 1; 
+a = 0;
+b = 1;
 alpha = 0.5;
 N = 10;
 [t, w, error] = rk45(f, a, b, alpha, N)

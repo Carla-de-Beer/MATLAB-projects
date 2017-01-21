@@ -1,9 +1,9 @@
 function [theta, J_history] = gradientDescent(X, y, theta, alpha, numIters)
-% The gradient descent method to solve multivariate linear regression
-% Based on the Coursera 'Machine Learning' online course.
-% Created: January 2017
+%GRADIENTDESCENT Performs gradient descent to learn theta
+%   theta = GRADIENTDESCENT(X, y, theta, alpha, numIters) updates theta by
+%   taking numIters gradient steps with learning rate alpha
 
-m = length(y); 
+m = length(y);
 J_history = zeros(numIters, 1);
 
 for iter = 1:numIters

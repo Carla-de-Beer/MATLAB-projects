@@ -26,16 +26,16 @@ num_runs = 5;
 % Run the K-Means Clustering algorithm for a number of times
 % and determine the most suitable solution
 for i = 1:num_runs
-
+    
     % Generate the centroids automatically, such as by
     % settings them to be random examples.
     initial_centroids = kMeansInitCentroids(X, K);
     % initial_centroids = [3 3; 6 2; 8 5]; % Could use a fixed starting position
     % for the centroids
-
+    
     % Run K-Means algorithm. The 'true' at the end tells our function to plot
     % the progress of K-Means
     [centroids, idx] = runkMeans(X, initial_centroids, max_iters, true);
     fprintf('\nK-Means Done.\n\n');
-
-end 
+    
+end

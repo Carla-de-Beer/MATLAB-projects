@@ -29,7 +29,7 @@ fprintf('Loading data ...\n');
 fprintf('\n');
 
 %% Load Data
-data = load('salaries.txt');
+data = load('sourceFiles/salaries.txt');
 X = data(:, 1:5);
 [m, n] = size(X);
 y = data(:, n+1);
@@ -38,8 +38,8 @@ y = data(:, n+1);
 fprintf('First 10 examples from the dataset: \n');
 fprintf('\n');
 fprintf(['Academic salaries based on:\n ' ...
-        '\t- gender, \n\t- rank, \n\t- year in current rank, \n\t- highest degree,' ...
-        '\n\t- years since highest degree']);
+    '\t- gender, \n\t- rank, \n\t- year in current rank, \n\t- highest degree,' ...
+    '\n\t- years since highest degree']);
 fprintf('\n');
 
 fprintf('\n');
@@ -67,7 +67,7 @@ fprintf('\n');
 
 numIters = 400;
 
-% Init Theta1 and Run Gradient Descent 
+% Init Theta1 and Run Gradient Descent
 alpha1 = 0.01;
 theta1 = zeros(n+1, 1);
 [theta1, J1_history] = gradientDescent(X, y, theta1, alpha1, numIters);
@@ -77,7 +77,7 @@ alpha2 = 0.1;
 theta2 = zeros(n+1, 1);
 [theta2, J2_history] = gradientDescent(X, y, theta2, alpha2, numIters);
 
-% Init Theta3 and Run Gradient Descent 
+% Init Theta3 and Run Gradient Descent
 alpha3 = 0.03;
 theta3 = zeros(n+1, 1);
 [theta3, J3_history] = gradientDescent(X, y, theta3, alpha3, numIters);
@@ -120,20 +120,20 @@ fprintf(' %f \n', theta2);
 
 % PREDICTION 1
 % Estimate the salary of a:
-% - female employee [1], 
-% - assistant professor [1], 
-% - 8 years in current rank [8], 
-% - master's degree [0], 
+% - female employee [1],
+% - assistant professor [1],
+% - 8 years in current rank [8],
+% - master's degree [0],
 % - 10 years since highest degree was earned [10]
 
 x = [1; (1-mu(1))/sigma(1); (1-mu(2))/sigma(2); (8-mu(3))/sigma(3); (0-mu(4))/sigma(4); (10-mu(5))/sigma(5)];
 salary1A = theta2' * x;
 
 % Estimate the salary of a:
-% - male employee [0], 
-% - assistant professor [1], 
-% - 8 years in current rank [8], 
-% - master's degree [0], 
+% - male employee [0],
+% - assistant professor [1],
+% - 8 years in current rank [8],
+% - master's degree [0],
 % - 10 years since highest degree was earned [10]
 
 x = [1; (0-mu(1))/sigma(1); (1-mu(2))/sigma(2); (8-mu(3))/sigma(3); (0-mu(4))/sigma(4); (10-mu(5))/sigma(5)];
@@ -141,20 +141,20 @@ salary1B = theta2' * x;
 
 % PREDICTION 2
 % Estimate the salary of a:
-% - female employee [1], 
-% - full professor [3], 
-% - 10 years in current rank [10], 
-% - doctorate degree [1], 
+% - female employee [1],
+% - full professor [3],
+% - 10 years in current rank [10],
+% - doctorate degree [1],
 % - 15 years since highest degree was earned [15]
 
 x = [1; (1-mu(1))/sigma(1); (3-mu(2))/sigma(2); (10-mu(3))/sigma(3); (1-mu(4))/sigma(4); (15-mu(5))/sigma(5)];
 salary2A = theta2' * x;
 
 % Estimate the salary of a:
-% - male employee [0], 
-% - full professor [3], 
-% - 10 years in current rank [10], 
-% - doctorate degree [1], 
+% - male employee [0],
+% - full professor [3],
+% - 10 years in current rank [10],
+% - doctorate degree [1],
 % - 15 years since highest degree was earned [15]
 
 x = [1; (0-mu(1))/sigma(1); (3-mu(2))/sigma(2); (10-mu(3))/sigma(3); (1-mu(4))/sigma(4); (15-mu(5))/sigma(5)];
@@ -171,7 +171,7 @@ fprintf(['Predicted salary of: ' ...
     '\n\t- masters degree,' ...
     '\n\t- 10 years since highest degree was earned ' ...
     '(using gradient descent):\n $%f\n'], salary1A);
-     
+
 fprintf('\n');
 fprintf(['Predicted salary of: ' ...
     '\n\t- a male employee,' ...
@@ -212,7 +212,7 @@ pause;
 fprintf('Solving with normal equations...\n');
 
 %% Load Data
-data = csvread('salaries.txt');
+data = csvread('sourceFiles/salaries.txt');
 X = data(:, 1:5);
 [m, n] = size(X);
 y = data(:, n+1);
@@ -231,38 +231,38 @@ fprintf(' %f \n', theta);
 
 % PREDICTION 1
 % Estimate the salary of a:
-% - female employee [1], 
-% - assistant professor [1], 
-% - 8 years in current rank [8], 
-% - master's degree [0], 
+% - female employee [1],
+% - assistant professor [1],
+% - 8 years in current rank [8],
+% - master's degree [0],
 % - 10 years since highest degree was earned [10]
 
 salary1A = [1, 1, 1, 8, 0, 10] * theta;
 
 % Estimate the salary of a:
-% - male employee [0], 
-% - assistant professor [1], 
-% - 8 years in current rank [8], 
-% - master's degree [0], 
+% - male employee [0],
+% - assistant professor [1],
+% - 8 years in current rank [8],
+% - master's degree [0],
 % - 10 years since highest degree was earned [10]
 
 salary1B = [1, 0, 1, 8, 0, 10] * theta;
 
 % PREDICTION 2
 % Estimate the salary of a:
-% - female employee [1], 
-% - full professor [3], 
-% - 10 years in current rank [10], 
-% - doctorate degree [1], 
+% - female employee [1],
+% - full professor [3],
+% - 10 years in current rank [10],
+% - doctorate degree [1],
 % - 15 years since highest degree was earned [15]
 
 salary2A = [1, 1, 3, 10, 1, 15] * theta;
 
 % Estimate the salary of a:
-% - male employee [0], 
-% - full professor [3], 
-% - 10 years in current rank [10], 
-% - doctorate degree [1], 
+% - male employee [0],
+% - full professor [3],
+% - 10 years in current rank [10],
+% - doctorate degree [1],
 % - 15 years since highest degree was earned [15]
 
 salary2B = [1, 0, 3, 10, 1, 15] * theta;

@@ -1,8 +1,9 @@
 function [X_norm, mu, sigma] = featureNormalize(X)
-% Function that returns a normalised version of X where
-% the mean value of each feature is 0 and the standard deviation is 1. 
-% Based on the Coursera 'Machine Learning' online course.
-% Created: January 2017
+%FEATURENORMALIZE Normalizes the features in X 
+%   FEATURENORMALIZE(X) returns a normalized version of X where
+%   the mean value of each feature is 0 and the standard deviation
+%   is 1. This is often a good preprocessing step to do when
+%   working with learning algorithms.
 
 mu = mean(X);
 sigma = std(X);

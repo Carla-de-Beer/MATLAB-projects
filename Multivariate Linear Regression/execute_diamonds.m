@@ -14,7 +14,7 @@
 % Colour: coded as D (most white/bright) through J (D = 1; J = 7)
 % Clarity: Coded as IF, VVS1, VVS2, VS1, VS2, VS2, SI2, or SI3
 %   - IF = 1
-%   - VVS1 = 2 
+%   - VVS1 = 2
 %   - VVS2 = 3
 %   - VS1 = 4
 %   - VS2 = 5
@@ -34,7 +34,7 @@ fprintf('Loading data ...\n');
 fprintf('\n');
 
 %% Load Data
-data = load('diamonds.txt');
+data = load('sourceFiles/diamonds.txt');
 X = data(:, 1:5);
 [m, n] = size(X);
 y = data(:, n+1);
@@ -43,8 +43,8 @@ y = data(:, n+1);
 fprintf('First 10 examples from the dataset: \n');
 fprintf('\n');
 fprintf(['Diamonds rated on:\n ' ...
-        '\t- carat, \n\t- colour, \n\t- clarity, \n\t- depth,' ...
-        '\n\t- price/ct']);
+    '\t- carat, \n\t- colour, \n\t- clarity, \n\t- depth,' ...
+    '\n\t- price/ct']);
 fprintf('\n');
 
 fprintf('\n');
@@ -73,7 +73,7 @@ fprintf('\n');
 
 numIters = 400;
 
-% Init Theta1 and Run Gradient Descent 
+% Init Theta1 and Run Gradient Descent
 alpha1 = 0.01;
 theta1 = zeros(n+1, 1);
 [theta1, J1_history] = gradientDescent(X, y, theta1, alpha1, numIters);
@@ -83,7 +83,7 @@ alpha2 = 0.3;
 theta2 = zeros(n+1, 1);
 [theta2, J2_history] = gradientDescent(X, y, theta2, alpha2, numIters);
 
-% Init Theta3 and Run Gradient Descent 
+% Init Theta3 and Run Gradient Descent
 alpha3 = 0.03;
 theta3 = zeros(n+1, 1);
 [theta3, J3_history] = gradientDescent(X, y, theta3, alpha3, numIters);
@@ -126,10 +126,10 @@ fprintf(' %f \n', theta2);
 
 % PREDICTION 1
 % Estimate the total price (in $) of the following diamond:
-% - carat: 0.45, 
-% - colour: E [2], 
-% - clarity: VVS1 [2], 
-% - depth: 62.3, 
+% - carat: 0.45,
+% - colour: E [2],
+% - clarity: VVS1 [2],
+% - depth: 62.3,
 % - price/ct: 3342.1
 
 x = [1; (0.45-mu(1))/sigma(1); (2-mu(2))/sigma(2); (2-mu(3))/sigma(3); (62.3-mu(4))/sigma(4); (3342.1-mu(5))/sigma(5)];
@@ -137,10 +137,10 @@ price1 = theta2' * x;
 
 % PREDICTION 2
 % Estimate the total price (in $) of the following diamond:
-% - carat: 1.25, 
-% - colour: G [4], 
-% - clarity: VS2 [5], 
-% - depth: 74.7, 
+% - carat: 1.25,
+% - colour: G [4],
+% - clarity: VS2 [5],
+% - depth: 74.7,
 % - price/ct: 5478.3
 
 x = [1; (1.25-mu(1))/sigma(1); (4-mu(2))/sigma(2); (5-mu(3))/sigma(3); (74.7-mu(4))/sigma(4); (5478.3-mu(5))/sigma(5)];
@@ -168,7 +168,7 @@ fprintf(['Predicted total price of a diamond with the following characteristics:
     '\n\t- depth: 74.7,' ...
     '\n\t- price/ct: 5478.3 ' ...
     '(using gradient descent):\n $%f\n'], price2);
-    
+
 fprintf('\n----------------------------------------------------------------------------\n');
 fprintf('----------------------------------------------------------------------------\n');
 
@@ -181,11 +181,11 @@ pause;
 fprintf('Solving with normal equations...\n');
 
 %% Load Data
-data = load('diamonds.txt');
+data = load('sourceFiles/diamonds.txt');
 X = data(:, 1:5);
 [m, n] = size(X);
 y = data(:, n+1);
- 
+
 % Add intercept term to X
 X = [ones(m, 1) X];
 
@@ -200,20 +200,20 @@ fprintf(' %f \n', theta);
 
 % PREDICTION 1
 % Estimate the total price (in $) of the following diamond:
-% - carat: 0.45, 
-% - colour: E [2], 
-% - clarity: VVS1 [2], 
-% - depth: 62.3, 
+% - carat: 0.45,
+% - colour: E [2],
+% - clarity: VVS1 [2],
+% - depth: 62.3,
 % - price/ct: 3342.1
 
 price1 = [1, 0.45, 2, 2, 62.3, 3342.1] * theta;
 
 % PREDICTION 2
 % Estimate the total price (in $) of the following diamond:
-% - carat: 1.25, 
-% - colour: G [4], 
-% - clarity: VS2 [5], 
-% - depth: 74.7, 
+% - carat: 1.25,
+% - colour: G [4],
+% - clarity: VS2 [5],
+% - depth: 74.7,
 % - price/ct: 5478.3
 
 price2 = [1, 1.25, 4, 5, 74.7, 5478.3] * theta;
@@ -240,6 +240,6 @@ fprintf(['Predicted total price of a diamond with the following characteristics:
     '\n\t- depth: 74.7,' ...
     '\n\t- price/ct: 5478.3 ' ...
     '(using gradient descent):\n $%f\n'], price2);
-     
+
 fprintf('\n----------------------------------------------------------------------------\n');
 fprintf('----------------------------------------------------------------------------\n');
