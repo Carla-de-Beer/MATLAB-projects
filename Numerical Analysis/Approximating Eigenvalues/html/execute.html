@@ -1,0 +1,619 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Approximating Eigenvalues</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-02-03"><meta name="DC.source" content="execute.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Approximating Eigenvalues</h1><!--introduction--><p>Created: February 2017</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Initialization</a></li><li><a href="#2">========== Part 1: The Power Method ==========</a></li></ul></div><h2>Initialization<a name="1"></a></h2><pre class="codeinput">clear; close <span class="string">all</span>; clc
+</pre><h2>========== Part 1: The Power Method ==========<a name="2"></a></h2><pre class="codeinput">fprintf(<span class="string">'------------------------------\n'</span>);
+fprintf(<span class="string">'\nExecuting the Power Method ...\n'</span>);
+fprintf(<span class="string">'\n------------------------------\n\n'</span>);
+
+A = [4 1 -1 0; 1 3 -1 0;-1 -1 5 2; 0 0 2 4];
+x0 = [0;1;0;0];
+TOL = 1*10^-6;
+N = 50;
+
+[x, lambda] = powerMethod(A, x0, TOL, N)
+</pre><pre class="codeoutput">------------------------------
+
+Executing the Power Method ...
+
+------------------------------
+
+Iteration 1
+x =
+
+    0.3333
+    1.0000
+   -0.3333
+         0
+
+
+y =
+
+     1
+     3
+    -1
+     0
+
+Iteration 2
+x =
+
+    0.7273
+    1.0000
+   -0.8182
+   -0.1818
+
+
+y =
+
+    2.6667
+    3.6667
+   -3.0000
+   -0.6667
+
+Iteration 3
+x =
+
+   -0.7647
+   -0.7353
+    1.0000
+    0.3824
+
+
+y =
+
+    4.7273
+    4.5455
+   -6.1818
+   -2.3636
+
+Iteration 4
+x =
+
+   -0.6599
+   -0.5466
+    1.0000
+    0.4858
+
+
+y =
+
+   -4.7941
+   -3.9706
+    7.2647
+    3.5294
+
+Iteration 5
+x =
+
+   -0.5832
+   -0.4597
+    1.0000
+    0.5494
+
+
+y =
+
+   -4.1862
+   -3.2996
+    7.1781
+    3.9433
+
+Iteration 6
+x =
+
+   -0.5310
+   -0.4148
+    1.0000
+    0.5877
+
+
+y =
+
+   -3.7924
+   -2.9622
+    7.1416
+    4.1974
+
+Iteration 7
+x =
+
+   -0.4970
+   -0.3897
+    1.0000
+    0.6110
+
+
+y =
+
+   -3.5389
+   -2.7754
+    7.1213
+    4.3510
+
+Iteration 8
+x =
+
+   -0.4751
+   -0.3751
+    1.0000
+    0.6251
+
+
+y =
+
+   -3.3775
+   -2.6661
+    7.1086
+    4.4439
+
+Iteration 9
+x =
+
+   -0.4613
+   -0.3662
+    1.0000
+    0.6338
+
+
+y =
+
+   -3.2756
+   -2.6003
+    7.1005
+    4.5006
+
+Iteration 10
+x =
+
+   -0.4526
+   -0.3608
+    1.0000
+    0.6392
+
+
+y =
+
+   -3.2115
+   -2.5600
+    7.0952
+    4.5354
+
+Iteration 11
+x =
+
+   -0.4472
+   -0.3575
+    1.0000
+    0.6425
+
+
+y =
+
+   -3.1713
+   -2.5350
+    7.0919
+    4.5569
+
+Iteration 12
+x =
+
+   -0.4438
+   -0.3554
+    1.0000
+    0.6446
+
+
+y =
+
+   -3.1462
+   -2.5195
+    7.0897
+    4.5702
+
+Iteration 13
+x =
+
+   -0.4416
+   -0.3541
+    1.0000
+    0.6459
+
+
+y =
+
+   -3.1304
+   -2.5099
+    7.0884
+    4.5785
+
+Iteration 14
+x =
+
+   -0.4403
+   -0.3533
+    1.0000
+    0.6467
+
+
+y =
+
+   -3.1206
+   -2.5039
+    7.0875
+    4.5837
+
+Iteration 15
+x =
+
+   -0.4395
+   -0.3528
+    1.0000
+    0.6472
+
+
+y =
+
+   -3.1145
+   -2.5001
+    7.0870
+    4.5869
+
+Iteration 16
+x =
+
+   -0.4389
+   -0.3525
+    1.0000
+    0.6475
+
+
+y =
+
+   -3.1106
+   -2.4978
+    7.0867
+    4.5889
+
+Iteration 17
+x =
+
+   -0.4386
+   -0.3523
+    1.0000
+    0.6477
+
+
+y =
+
+   -3.1082
+   -2.4963
+    7.0865
+    4.5902
+
+Iteration 18
+x =
+
+   -0.4384
+   -0.3521
+    1.0000
+    0.6479
+
+
+y =
+
+   -3.1067
+   -2.4954
+    7.0863
+    4.5909
+
+Iteration 19
+x =
+
+   -0.4383
+   -0.3521
+    1.0000
+    0.6479
+
+
+y =
+
+   -3.1058
+   -2.4948
+    7.0863
+    4.5914
+
+Iteration 20
+x =
+
+   -0.4382
+   -0.3520
+    1.0000
+    0.6480
+
+
+y =
+
+   -3.1052
+   -2.4945
+    7.0862
+    4.5917
+
+Iteration 21
+x =
+
+   -0.4382
+   -0.3520
+    1.0000
+    0.6480
+
+
+y =
+
+   -3.1048
+   -2.4943
+    7.0862
+    4.5919
+
+Iteration 22
+x =
+
+   -0.4381
+   -0.3520
+    1.0000
+    0.6480
+
+
+y =
+
+   -3.1046
+   -2.4941
+    7.0862
+    4.5920
+
+Iteration 23
+x =
+
+   -0.4381
+   -0.3520
+    1.0000
+    0.6480
+
+
+y =
+
+   -3.1045
+   -2.4940
+    7.0862
+    4.5921
+
+Iteration 24
+x =
+
+   -0.4381
+   -0.3520
+    1.0000
+    0.6480
+
+
+y =
+
+   -3.1044
+   -2.4940
+    7.0861
+    4.5922
+
+Iteration 25
+x =
+
+   -0.4381
+   -0.3519
+    1.0000
+    0.6481
+
+
+y =
+
+   -3.1043
+   -2.4939
+    7.0861
+    4.5922
+
+Iteration 26
+x =
+
+   -0.4381
+   -0.3519
+    1.0000
+    0.6481
+
+
+y =
+
+   -3.1043
+   -2.4939
+    7.0861
+    4.5922
+
+Iteration 27
+x =
+
+   -0.4381
+   -0.3519
+    1.0000
+    0.6481
+
+
+y =
+
+   -3.1043
+   -2.4939
+    7.0861
+    4.5922
+
+Iteration 28
+x =
+
+   -0.4381
+   -0.3519
+    1.0000
+    0.6481
+
+
+y =
+
+   -3.1042
+   -2.4939
+    7.0861
+    4.5922
+
+Iteration 29
+x =
+
+   -0.4381
+   -0.3519
+    1.0000
+    0.6481
+
+
+y =
+
+   -3.1042
+   -2.4939
+    7.0861
+    4.5922
+
+Iteration 30
+
+***********************************************
+Answer successfully calculated at: Iteration 30
+***********************************************
+
+x =
+
+   -0.4381
+   -0.3519
+    1.0000
+    0.6481
+
+
+lambda =
+
+    3.0000
+    3.6667
+    4.5455
+    7.2647
+    7.1781
+    7.1416
+    7.1213
+    7.1086
+    7.1005
+    7.0952
+    7.0919
+    7.0897
+    7.0884
+    7.0875
+    7.0870
+    7.0867
+    7.0865
+    7.0863
+    7.0863
+    7.0862
+    7.0862
+    7.0862
+    7.0862
+    7.0861
+    7.0861
+    7.0861
+    7.0861
+    7.0861
+    7.0861
+    7.0861
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Approximating Eigenvalues
+%
+% Created: February 2017
+
+%% Initialization
+clear; close all; clc
+
+%% ========== Part 1: The Power Method ==========
+
+fprintf('REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n');
+fprintf('\nExecuting the Power Method ...\n');
+fprintf('\nREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH\n\n');
+
+A = [4 1 -1 0; 1 3 -1 0;-1 -1 5 2; 0 0 2 4];
+x0 = [0;1;0;0];
+TOL = 1*10^-6;
+N = 50;
+
+[x, lambda] = powerMethod(A, x0, TOL, N)
+##### SOURCE END #####
+--></body></html>

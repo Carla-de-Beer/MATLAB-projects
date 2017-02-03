@@ -1,11 +1,13 @@
 function [p, error] = newtonRaphson(f, df, p0, TOL, N)
-%The Newton?Raphson method for finding successively better approximations
+%NEWTONRAPHSON is the Newton-Raphson method for finding successively better approximations
 %to the roots (or zeroes) of a real-valued function.
 %
 %   p = newtonRaphson(f, df, p0, TOL, N) returns the approximate root.
 %   f is the function for which the root is to be found,
 %   df the first order differentiation of f, p is the initial guess,
 %   TOL the tolerance and N the max number of iterations.
+%
+%   Created: November 2015
 
 for i = 1:N
     

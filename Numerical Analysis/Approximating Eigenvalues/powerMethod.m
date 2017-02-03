@@ -1,7 +1,7 @@
 function [x, lambda] = powerMethod(A, x0, TOL, N)
-%The power method is an iterative technique used to approximate
+%POWERMETHOD is the power method, an iterative technique, used to approximate
 %the dominant eigenvalue of a matrix, that is,
-%the eigenvalue with the largest maginutde.
+%the eigenvalue with the largest magnitude.
 %
 %   [x, lambda] = powerMethod(A, x0, TOL, N) returns the eigenvector for
 %   the associated eigenvalue. We assume that A is an nxn matrix with
@@ -13,7 +13,7 @@ function [x, lambda] = powerMethod(A, x0, TOL, N)
 %
 %   Algorithm taken from:
 %   Burden, Faires, Burden. 2014. "Numerical Analysis". 10th Edition, Cengage
-%   Learning, p587-588.
+%   Learning, p587-588
 %   Created: September 2015
 
 [i,j] = max(abs(x0)); % gives the value and index of the max + abs element
@@ -41,10 +41,11 @@ for k = 1:N
     
     if ERR < TOL
         mu = y(j);
-        fprintf('Answer successfully calculated at:');
+        fprintf('\n\n***********************************************');
+        fprintf('\nAnswer successfully calculated at: ');
         message = sprintf('Iteration %d',k);
         fprintf(message);
-        fprintf('*********************************');
+        fprintf('\n***********************************************\n');
         return;
     end
     

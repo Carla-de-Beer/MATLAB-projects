@@ -7,7 +7,7 @@ function [t, w, error] = rk45(f, a, b, alpha, N)
 %
 %   Algorithm taken from:
 %   Burden, Faires, Burden. 2014. "Numerical Analysis". 10th Edition, Cengage
-%   Learning, p267
+%   Learning, p288
 %   Created: October 2015
 
 h = (b - a)/N; % or input h, and find N

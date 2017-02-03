@@ -1,5 +1,5 @@
 function x = gauss(A, b)
-%GAUSS is the Gauss elimination function with backward substitution.
+%GAUSS is the Gaussian elimination function with backward substitution.
 %Achieves the same result as the built-in MATLAB function: A\b.
 %   x = gauss(A,b) computes the value of x using
 %   Gauss method A is an nxm matrix, and b an nx1 vector.
